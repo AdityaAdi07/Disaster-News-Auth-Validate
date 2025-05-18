@@ -1,0 +1,201 @@
+/* Main Styles for Disaster Information Dashboard */
+
+:root {
+  /* Color variables */
+  --primary-color: #3498db;
+  --secondary-color: #2ecc71;
+  --danger-color: #e74c3c;
+  --warning-color: #f39c12;
+  --dark-color: #2c3e50;
+  --light-color: #ecf0f1;
+  --text-color: #333;
+  --border-color: #ddd;
+  --sidebar-width: 220px;
+  --header-height: 60px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--text-color);
+  background-color: #f5f7fa;
+  line-height: 1.6;
+}
+
+/* Top Navigation Bar */
+.top-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--header-height);
+  background-color: var(--dark-color);
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.top-nav .logo h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.alert-icon {
+  position: relative;
+  cursor: pointer;
+}
+
+.notification-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: var(--danger-color);
+  color: white;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  font-size: 0.7rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Main Container */
+.container {
+  display: flex;
+  margin-top: var(--header-height);
+  min-height: calc(100vh - var(--header-height));
+}
+
+/* Sidebar */
+.sidebar {
+  width: var(--sidebar-width);
+  background-color: white;
+  border-right: 1px solid var(--border-color);
+  height: calc(100vh - var(--header-height));
+  position: fixed;
+  overflow-y: auto;
+}
+
+.sidebar ul {
+  list-style: none;
+}
+
+.sidebar li {
+  padding: 15px 20px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+}
+
+.sidebar li:hover {
+  background-color: rgba(52, 152, 219, 0.1);
+}
+
+.sidebar li.active {
+  background-color: var(--primary-color);
+  color: white;
+  border-left: 4px solid #2980b9;
+}
+
+/* Main Content */
+.content {
+  flex: 1;
+  margin-left: var(--sidebar-width);
+  padding: 20px;
+  overflow-y: auto;
+}
+
+/* Panels */
+.panel {
+  display: none;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.panel.active {
+  display: block;
+}
+
+.panel h2 {
+  margin-bottom: 20px;
+  color: var(--dark-color);
+  border-bottom: 2px solid var(--primary-color);
+  padding-bottom: 10px;
+}
+
+/* Loading Indicator */
+.loading {
+  text-align: center;
+  padding: 20px;
+  color: #777;
+}
+
+/* Buttons */
+.btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn.primary {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.btn.danger {
+  background-color: var(--danger-color);
+  color: white;
+}
+
+.btn.warning {
+  background-color: var(--warning-color);
+  color: white;
+}
+
+.btn:hover {
+  opacity: 0.9;
+}
+
+/* Map Container */
+#disaster-map {
+  height: 500px;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+  
+  .content {
+    margin-left: 0;
+  }
+  
+  .container {
+    flex-direction: column;
+  }
+  
+  .top-nav .logo h1 {
+    font-size: 1.2rem;
+  }
+}

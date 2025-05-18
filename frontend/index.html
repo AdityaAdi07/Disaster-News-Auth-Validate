@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disaster Information Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" 
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" 
+          crossorigin=""/>
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" 
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" 
+            crossorigin=""></script>
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <header class="top-nav">
+        <div class="logo">
+            <h1>Disaster Information Dashboard</h1>
+        </div>
+        <div class="alert-icon">
+            <span class="notification-badge" id="alertCount">0</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+            </svg>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Sidebar Navigation Panel -->
+        <nav class="sidebar">
+            <ul>
+                <li class="active" data-tab="live-feed">Live Feed</li>
+                <li data-tab="verified-alerts">Verified Alerts</li>
+                <li data-tab="iot-sensor">IoT Sensor Data</li>
+                <li data-tab="map">Map</li>
+                <li data-tab="analytics">Analytics</li>
+                <li data-tab="admin">Admin Panel</li>
+            </ul>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="content">
+            <!-- Live Feed Panel -->
+            <section id="live-feed" class="panel active">
+                <h2>Live Social Media Feed</h2>
+                <div class="filter-container">
+                    <label for="disaster-type-filter">Filter by disaster type:</label>
+                    <select id="disaster-type-filter">
+                        <option value="all">All Types</option>
+                        <option value="flood">Flood</option>
+                        <option value="earthquake">Earthquake</option>
+                        <option value="fire">Fire</option>
+                        <option value="cyclone">Cyclone</option>
+                        <option value="landslide">Landslide</option>
+                    </select>
+                </div>
+                <div class="feed-container" id="social-posts-container">
+                    <!-- Social posts will be populated here -->
+                    <div class="loading">Loading social media posts...</div>
+                </div>
+            </section>
+
+            <!-- Verified Alerts Panel -->
+            <section id="verified-alerts" class="panel">
+                <h2>Verified Alerts</h2>
+                <div class="alerts-container" id="verified-alerts-container">
+                    <!-- Verified alerts will be populated here -->
+                    <div class="loading">Loading verified alerts...</div>
+                </div>
+            </section>
+
+            <!-- IoT Sensor Panel -->
+            <section id="iot-sensor" class="panel">
+                <h2>IoT Sensor Data</h2>
+                <div class="sensor-grid" id="sensor-data-container">
+                    <!-- Sensor data will be populated here -->
+                    <div class="loading">Loading sensor data...</div>
+                </div>
+            </section>
+
+            <!-- Map Panel -->
+            <section id="map" class="panel">
+                <h2>Disaster Map</h2>
+                <div id="disaster-map"></div>
+            </section>
+
+            <!-- Analytics Panel -->
+            <section id="analytics" class="panel">
+                <h2>Disaster Analytics</h2>
+                <div class="charts-container">
+                    <div class="chart-wrapper">
+                        <h3>Disaster Types Distribution</h3>
+                        <canvas id="disaster-types-chart"></canvas>
+                    </div>
+                    <div class="chart-wrapper">
+                        <h3>Disaster Count by Region</h3>
+                        <canvas id="region-disaster-chart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Admin Panel -->
+            <section id="admin" class="panel">
+                <h2>Admin Panel</h2>
+                <div class="admin-controls">
+                    <button id="create-alert-btn" class="btn primary">Create New Alert</button>
+                </div>
+                <div class="admin-table-container">
+                    <table id="alerts-table">
+                        <thead>
+                            <tr>
+                                <th>Timestamp</th>
+                                <th>Location</th>
+                                <th>Disaster Type</th>
+                                <th>Severity</th>
+                                <th>Status</th>
+                                <th>Verified</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="alerts-table-body">
+                            <!-- Alert rows will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/utils/helpers.js"></script>
+    <script src="js/utils/charts.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/websocket.js"></script>
+    <script src="js/components/liveFeed.js"></script>
+    <script src="js/components/verifiedAlerts.js"></script>
+    <script src="js/components/iotSensors.js"></script>
+    <script src="js/components/map.js"></script>
+    <script src="js/components/analytics.js"></script>
+    <script src="js/components/adminPanel.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
