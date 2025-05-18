@@ -92,15 +92,219 @@
             <!-- Analytics Panel -->
             <section id="analytics" class="panel">
                 <h2>Disaster Analytics</h2>
+                
+                <div class="analytics-header">
+                    <div class="analytics-title">
+                        <h3>Real-time Disaster Insights</h3>
+                        <p class="analytics-subtitle">Data updated: <span id="last-updated">Just now</span></p>
+                    </div>
+                    <div class="analytics-actions">
+                        <div class="date-filter">
+                            <label for="date-range">Time Range:</label>
+                            <select id="date-range">
+                                <option value="day">Last 24 Hours</option>
+                                <option value="week" selected>Last 7 Days</option>
+                                <option value="month">Last 30 Days</option>
+                                <option value="year">Last Year</option>
+                            </select>
+                        </div>
+                        <button id="export-pdf" class="btn secondary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                            Export PDF
+                        </button>
+                        <button id="refresh-analytics" class="btn primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"></path><path d="M1 20v-6h6"></path><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10"></path><path d="M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                            Refresh
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Stats Cards -->
+                <div class="stats-cards">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+                        </div>
+                        <div class="stat-value" id="total-disasters">0</div>
+                        <div class="stat-label">Total Disasters</div>
+                        <div class="stat-trend trend-up">+5% from last week</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
+                        </div>
+                        <div class="stat-value" id="active-alerts">0</div>
+                        <div class="stat-label">Active Alerts</div>
+                        <div class="stat-trend trend-down">-2% from last week</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
+                        </div>
+                        <div class="stat-value" id="sensors-online">0/0</div>
+                        <div class="stat-label">Sensors Online</div>
+                        <div class="stat-trend trend-neutral">No change</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                        </div>
+                        <div class="stat-value" id="affected-regions">0</div>
+                        <div class="stat-label">Affected Regions</div>
+                        <div class="stat-trend trend-up">+3% from last week</div>
+                    </div>
+                </div>
+                
+                <!-- Synapse Score -->
+                <div class="synapse-score-container">
+                    <div class="synapse-score-header">
+                        <h3>Disaster Response Synapse Score</h3>
+                        <div class="synapse-score-legend">
+                            <div class="legend-item">
+                                <span class="legend-color" style="background-color: #e74c3c;"></span>
+                                <span>Critical (0-40)</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color" style="background-color: #f39c12;"></span>
+                                <span>Warning (41-70)</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color" style="background-color: #2ecc71;"></span>
+                                <span>Good (71-100)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="synapse-score-content">
+                        <div class="synapse-score-gauge">
+                            <div class="gauge-container" id="synapse-gauge"></div>
+                            <div class="gauge-value">
+                                <span id="synapse-score-value">78</span>
+                                <span class="gauge-label">Synapse Score</span>
+                            </div>
+                        </div>
+                        <div class="synapse-score-details">
+                            <div class="synapse-score-factor">
+                                <div class="factor-label">Response Time</div>
+                                <div class="factor-bar-container">
+                                    <div class="factor-bar" style="width: 85%; background-color: #2ecc71;"></div>
+                                </div>
+                                <div class="factor-value">85%</div>
+                            </div>
+                            <div class="synapse-score-factor">
+                                <div class="factor-label">Resource Allocation</div>
+                                <div class="factor-bar-container">
+                                    <div class="factor-bar" style="width: 72%; background-color: #2ecc71;"></div>
+                                </div>
+                                <div class="factor-value">72%</div>
+                            </div>
+                            <div class="synapse-score-factor">
+                                <div class="factor-label">Sensor Coverage</div>
+                                <div class="factor-bar-container">
+                                    <div class="factor-bar" style="width: 65%; background-color: #f39c12;"></div>
+                                </div>
+                                <div class="factor-value">65%</div>
+                            </div>
+                            <div class="synapse-score-factor">
+                                <div class="factor-label">Alert Accuracy</div>
+                                <div class="factor-bar-container">
+                                    <div class="factor-bar" style="width: 90%; background-color: #2ecc71;"></div>
+                                </div>
+                                <div class="factor-value">90%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Main Charts -->
+                <div class="charts-row">
+                    <div class="chart-container-large">
+                        <div class="chart-header">
+                            <h3>Disaster Trend Analysis</h3>
+                            <div class="chart-actions">
+                                <select id="trend-chart-type">
+                                    <option value="all">All Disasters</option>
+                                    <option value="flood">Floods</option>
+                                    <option value="earthquake">Earthquakes</option>
+                                    <option value="fire">Fires</option>
+                                    <option value="cyclone">Cyclones</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="disaster-trend-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
                 <div class="charts-container">
-                    <div class="chart-wrapper">
-                        <h3>Disaster Types Distribution</h3>
-                        <canvas id="disaster-types-chart"></canvas>
+                    <div class="chart-container-medium">
+                        <div class="chart-header">
+                            <h3>Disaster Types Distribution</h3>
+                            <div class="chart-actions">
+                                <button class="chart-action-btn" data-chart="disaster-types-chart" data-action="download">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                                </button>
+                                <button class="chart-action-btn" data-chart="disaster-types-chart" data-action="fullscreen">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="disaster-types-chart"></canvas>
+                        </div>
                     </div>
-                    <div class="chart-wrapper">
-                        <h3>Disaster Count by Region</h3>
-                        <canvas id="region-disaster-chart"></canvas>
+                    <div class="chart-container-medium">
+                        <div class="chart-header">
+                            <h3>Disaster Count by Region</h3>
+                            <div class="chart-actions">
+                                <button class="chart-action-btn" data-chart="region-disaster-chart" data-action="download">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                                </button>
+                                <button class="chart-action-btn" data-chart="region-disaster-chart" data-action="fullscreen">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="region-disaster-chart"></canvas>
+                        </div>
                     </div>
+                </div>
+                
+                <div class="charts-row">
+                    <div class="chart-container-small">
+                        <div class="chart-header">
+                            <h3>Sensor Alert Distribution</h3>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="sensor-alert-chart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-container-small">
+                        <div class="chart-header">
+                            <h3>Response Time Analysis</h3>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="response-time-chart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-container-small">
+                        <div class="chart-header">
+                            <h3>Resource Allocation</h3>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="resource-allocation-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Print-only elements -->
+                <div class="print-header">
+                    <h1>Disaster Information Dashboard - Analytics Report</h1>
+                    <p>Generated on <span id="print-date"></span></p>
+                </div>
+                <div class="print-footer">
+                    <p> 2025 Disaster Information Dashboard | Confidential Report</p>
                 </div>
             </section>
 
