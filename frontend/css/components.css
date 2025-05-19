@@ -131,6 +131,80 @@
   color: #e74c3c;
 }
 
+/* AI Summarizer in Live Feed */
+.ai-summarizer-container {
+  background-color: var(--dark-accent);
+  border-radius: 6px;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-left: 4px solid var(--primary-color);
+}
+
+.ai-summarizer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.ai-summarizer-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+.ai-summarizer-refresh {
+  background: none;
+  border: none;
+  color: var(--primary-color);
+  cursor: pointer;
+  padding: 5px 8px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease;
+}
+
+.ai-summarizer-refresh:hover {
+  background-color: rgba(52, 152, 219, 0.1);
+}
+
+.ai-summarizer-content {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+  white-space: pre-line;
+}
+
+.ai-summarizer-content.loading {
+  opacity: 0.7;
+}
+
+/* Fix for media attachments in social posts */
+.social-post-media {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  overflow: hidden;
+  max-width: 100%;
+  display: block;
+}
+
+.social-post-image {
+  max-width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+  display: block;
+}
+
+.social-post-video {
+  max-width: 100%;
+  max-height: 200px;
+  display: block;
+}
+
 /* Verified Alerts Panel */
 .alerts-container {
   display: grid;
@@ -1640,5 +1714,160 @@ tr:hover {
   
   .factor-value {
     text-align: left;
+  }
+}
+
+/* Threshold Alert Panel */
+.threshold-alert-panel {
+  position: fixed;
+  top: 70px;
+  right: 20px;
+  width: 320px;
+  max-height: 80vh;
+  background-color: var(--danger-color);
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  z-index: 1100;
+  display: none;
+  overflow: hidden;
+  animation: blinkingAlert 2s infinite alternate;
+}
+
+@keyframes blinkingAlert {
+  from { box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3); }
+  to { box-shadow: 0 5px 25px rgba(231, 76, 60, 0.8); }
+}
+
+.threshold-alert-panel.active {
+  display: block;
+}
+
+.threshold-alert-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 15px;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.threshold-alert-title {
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.threshold-alert-title::before {
+  content: "⚠️";
+  font-size: 1.2rem;
+}
+
+.threshold-alert-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+}
+
+.threshold-alert-close:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.threshold-alerts-container {
+  max-height: calc(80vh - 50px);
+  overflow-y: auto;
+}
+
+.threshold-alerts-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.threshold-alerts-container::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+}
+
+.threshold-alert-item {
+  padding: 12px 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: white;
+  transition: background-color 0.2s ease;
+}
+
+.threshold-alert-item:last-child {
+  border-bottom: none;
+}
+
+.threshold-alert-item:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.threshold-alert-icon {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.threshold-alert-content {
+  flex: 1;
+}
+
+.threshold-alert-name {
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+.threshold-alert-value {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.threshold-alert-meta {
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
+.threshold-alert-dismiss {
+  background-color: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: background-color 0.2s ease;
+}
+
+.threshold-alert-dismiss:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Mobile responsiveness for threshold alerts */
+@media (max-width: 576px) {
+  .threshold-alert-panel {
+    width: calc(100% - 40px);
+    top: 70px;
+    right: 20px;
+    left: 20px;
   }
 }

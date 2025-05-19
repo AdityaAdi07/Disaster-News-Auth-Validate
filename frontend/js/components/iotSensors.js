@@ -26,6 +26,11 @@ function updateIoTSensors(sensorData) {
     
     // Render sensor data
     renderSensorData(sensorData);
+    
+    // Check thresholds for alerts
+    if (typeof checkThresholds === 'function') {
+        checkThresholds(sensorData);
+    }
 }
 
 /**

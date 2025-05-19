@@ -12,6 +12,10 @@ const RECONNECT_INTERVAL = 5000; // 5 seconds
 let reconnectAttempts = 0;
 const MAX_RECONNECT_ATTEMPTS = 10;
 
+// Polling interval for IoT sensor data (10 seconds)
+const IOT_POLLING_INTERVAL = 10000;
+let iotPollingTimer = null;
+
 /**
  * Connect to WebSocket server
  */
@@ -47,6 +51,9 @@ function handleSocketOpen() {
     
     // Subscribe to channels
     subscribeToChannels();
+    
+    // Start IoT sensor polling
+    startIoTPolling();
 }
 
 /**
@@ -133,6 +140,9 @@ function handleSocketClose(event) {
     console.log(`WebSocket connection closed: ${event.code} ${event.reason}`);
     appState.websocketConnected = false;
     
+    // Stop IoT polling
+    stopIoTPolling();
+    
     // Attempt to reconnect
     scheduleReconnect();
 }
@@ -200,5 +210,54 @@ function sendWebSocketMessage(type, data) {
         socket.send(JSON.stringify(message));
     } else {
         console.error('Cannot send message: WebSocket is not connected');
+    }
+}
+
+/**
+ * Start polling for IoT sensor data
+ */
+function startIoTPolling() {
+    // Clear any existing timer
+    stopIoTPolling();
+    
+    // Immediately fetch data
+    fetchIoTSensorData();
+    
+    // Set up interval for regular polling
+    iotPollingTimer = setInterval(fetchIoTSensorData, IOT_POLLING_INTERVAL);
+    
+    console.log(`Started IoT sensor polling every ${IOT_POLLING_INTERVAL / 1000} seconds`);
+}
+
+/**
+ * Stop polling for IoT sensor data
+ */
+function stopIoTPolling() {
+    if (iotPollingTimer) {
+        clearInterval(iotPollingTimer);
+        iotPollingTimer = null;
+    }
+}
+
+/**
+ * Fetch IoT sensor data via REST API
+ */
+async function fetchIoTSensorData() {
+    try {
+        const response = await fetch(`${API_BASE_URL}/iot-sensors`);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        
+        // Update IoT sensors component
+        if (typeof updateIoTSensors === 'function') {
+            updateIoTSensors(data);
+        }
+        
+    } catch (error) {
+        console.error('Error fetching IoT sensor data:', error);
     }
 }

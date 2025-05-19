@@ -135,6 +135,16 @@ function initComponents() {
     if (typeof initAdminPanel === 'function') {
         initAdminPanel();
     }
+    
+    // Initialize Threshold Alerts
+    if (typeof initThresholdAlerts === 'function') {
+        initThresholdAlerts();
+    }
+    
+    // Initialize AI Summary Panel
+    if (typeof initAISummary === 'function') {
+        initAISummary();
+    }
 }
 
 /**

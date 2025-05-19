@@ -170,3 +170,68 @@ async function sendSMSAlert(alertId) {
         throw error;
     }
 }
+
+/**
+ * Get IoT sensor data
+ * @returns {Promise<Array>} The sensor data
+ */
+async function getIoTSensorData() {
+    try {
+        const response = await fetch(`${API_BASE_URL}/iot-sensors`);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching IoT sensor data:', error);
+        throw error;
+    }
+}
+
+/**
+ * Get dashboard summary data
+ * @returns {Promise<Object>} The summary data
+ */
+async function getDashboardSummary() {
+    try {
+        const response = await fetch(`${API_BASE_URL}/summary`);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching dashboard summary:', error);
+        throw error;
+    }
+}
+
+/**
+ * Vote on a social media post
+ * @param {string} postId - The ID of the post
+ * @param {string} voteType - The type of vote ('up' or 'down')
+ * @returns {Promise<Object>} The updated vote counts
+ */
+async function voteSocialPost(postId, voteType) {
+    try {
+        const response = await fetch(`${API_BASE_URL}/social-posts/${postId}/vote`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ vote: voteType })
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        
+        return await response.json();
+    } catch (error) {
+        console.error('Error voting on social post:', error);
+        throw error;
+    }
+}

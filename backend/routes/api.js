@@ -11,6 +11,7 @@ const SocialPost = require('../models/socialPosts');
 const IoTSensorData = require('../models/iotSensorData');
 const DisasterAlert = require('../models/disasterAlerts');
 const RegionsStats = require('../models/regionsStats');
+const PostVote = require('../models/postVotes');
 
 /**
  * GET /api/dashboard
@@ -289,6 +290,159 @@ router.post('/alerts/:id/sms', async (req, res) => {
     } catch (error) {
         console.error('Error sending SMS alert:', error);
         res.status(500).json({ error: 'Failed to send SMS alert' });
+    }
+});
+
+/**
+ * POST /api/social-posts/:id/vote
+ * Vote on a social media post (upvote or downvote)
+ */
+router.post('/social-posts/:id/vote', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { vote } = req.body;
+        
+        // Validate vote type
+        if (!['up', 'down'].includes(vote)) {
+            return res.status(400).json({ error: 'Invalid vote type. Must be "up" or "down"' });
+        }
+        
+        // Get post
+        const post = await SocialPost.findById(id);
+        
+        if (!post) {
+            return res.status(404).json({ error: 'Social post not found' });
+        }
+        
+        // Generate a session ID (in a real app, this would come from the user's session)
+        // For this demo, we'll use the IP address or a random ID
+        const session_id = req.headers['x-forwarded-for'] || 
+                          req.connection.remoteAddress || 
+                          Math.random().toString(36).substring(2, 15);
+        
+        // Check if user has already voted on this post
+        const existingVote = await PostVote.findOne({
+            post_id: id,
+            session_id
+        });
+        
+        if (existingVote) {
+            // If vote type is the same, return current counts
+            if (existingVote.vote === vote) {
+                return res.json({
+                    upvotes: post.upvotes,
+                    downvotes: post.downvotes
+                });
+            }
+            
+            // Update existing vote
+            existingVote.vote = vote;
+            await existingVote.save();
+            
+            // Update post vote counts
+            if (vote === 'up') {
+                post.upvotes += 1;
+                post.downvotes = Math.max(0, post.downvotes - 1);
+            } else {
+                post.downvotes += 1;
+                post.upvotes = Math.max(0, post.upvotes - 1);
+            }
+        } else {
+            // Create new vote
+            const newVote = new PostVote({
+                post_id: id,
+                vote,
+                session_id
+            });
+            
+            await newVote.save();
+            
+            // Update post vote counts
+            if (vote === 'up') {
+                post.upvotes += 1;
+            } else {
+                post.downvotes += 1;
+            }
+        }
+        
+        // Save post
+        await post.save();
+        
+        // Return updated vote counts
+        res.json({
+            upvotes: post.upvotes,
+            downvotes: post.downvotes
+        });
+    } catch (error) {
+        console.error('Error voting on social post:', error);
+        res.status(500).json({ error: 'Failed to vote on social post' });
+    }
+});
+
+/**
+ * GET /api/summary
+ * Get dashboard summary data
+ */
+router.get('/summary', async (req, res) => {
+    try {
+        // Get data for summary
+        const [socialPosts, iotSensorData, disasterAlerts] = await Promise.all([
+            SocialPost.find(),
+            IoTSensorData.find(),
+            DisasterAlert.find({ status: 'active' })
+        ]);
+        
+        // Calculate top disaster types in the last hour
+        const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
+        const recentAlerts = disasterAlerts.filter(alert => 
+            new Date(alert.timestamp) >= oneHourAgo
+        );
+        
+        // Count disaster types
+        const disasterTypeCounts = {};
+        recentAlerts.forEach(alert => {
+            const type = alert.disaster_type;
+            disasterTypeCounts[type] = (disasterTypeCounts[type] || 0) + 1;
+        });
+        
+        // Convert to array and sort
+        const topDisasterTypes = Object.entries(disasterTypeCounts)
+            .map(([type, count]) => ({ type, count }))
+            .sort((a, b) => b.count - a.count);
+        
+        // Find region with most active alerts
+        const regionCounts = {};
+        disasterAlerts.forEach(alert => {
+            const region = alert.location.split(',').pop().trim();
+            regionCounts[region] = (regionCounts[region] || 0) + 1;
+        });
+        
+        let mostActiveRegion = 'None';
+        let maxCount = 0;
+        
+        Object.entries(regionCounts).forEach(([region, count]) => {
+            if (count > maxCount) {
+                mostActiveRegion = region;
+                maxCount = count;
+            }
+        });
+        
+        // Count unverified social posts
+        const unverifiedPosts = socialPosts.filter(post => !post.verified).length;
+        
+        // Count IoT anomalies
+        const iotAnomalies = iotSensorData.filter(sensor => sensor.anomaly_detected).length;
+        
+        // Return summary data
+        res.json({
+            top_disaster_types: topDisasterTypes,
+            most_active_region: mostActiveRegion,
+            unverified_posts: unverifiedPosts,
+            iot_anomalies: iotAnomalies
+        });
+    } catch (error) {
+        console.error('Error fetching summary data:', error);
+        res.status(500).json({ error: 'Failed to fetch summary data' });
     }
 });
 

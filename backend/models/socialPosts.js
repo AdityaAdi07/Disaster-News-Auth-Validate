@@ -51,6 +51,18 @@ const socialPostSchema = new mongoose.Schema({
     viewed: {
         type: Boolean,
         default: false
+    },
+    media_url: {
+        type: String,
+        default: null
+    },
+    upvotes: {
+        type: Number,
+        default: 0
+    },
+    downvotes: {
+        type: Number,
+        default: 0
     }
 }, {
     timestamps: true
