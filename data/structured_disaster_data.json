@@ -1,0 +1,67 @@
+[
+  {
+    "Title": "Bengaluru Rains, Bangalore Rain, Bengaluru Rain Today: Heavy Rain ...",
+    "image_urls": [
+      "https://c.ndtvimg.com/2023-05/65jujpgo_bengaluru-rain-twitter_625x300_01_May_23.jpg",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSez41H6WmEkWDB5SoCP3KimZs8NoxyQCC5YEG45kMakJm-nlBG&s"
+    ],
+    "newspaper_name": "N/A",
+    "severity": "moderate",
+    "death": 0,
+    "gemini_raw_response": "N/A",
+    "social_media_clips_link": [],
+    "source_url": "https://www.ndtv.com/bangalore-news/pics-heavy-rain-in-bengaluru-roads-waterlogged-3995680"
+  },
+  {
+    "Title": "At 1,958.6 mm, Bengaluru received record rainfall last year ...",
+    "image_urls": [
+      "https://images.indianexpress.com/2023/01/bengaluru-rains.jpeg",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjcVrYjvlMEithbGS2bj_mrBPHqXGIMnhfczjBiLJmaDD-nPoP&s"
+    ],
+    "newspaper_name": "N/A",
+    "severity": "extreme",
+    "death": 0,
+    "gemini_raw_response": "N/A",
+    "social_media_clips_link": [],
+    "source_url": "https://indianexpress.com/article/cities/bangalore/at-1958-6-mm-bengaluru-received-record-rainfall-last-year-8363856/"
+  },
+  {
+    "Title": "Bengaluru sees wettest April in seven years",
+    "image_urls": [
+      "https://media.assettype.com/tnm%2Fimport%2Fsites%2Fdefault%2Ffiles%2FBengaluru_Rains_PTI_10102021_1200.jpg?w=480&auto=format%2Ccompress&fit=max",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5Xz_KADk9oXYRPIoIAqgXIrD7S_YfSQzAtqyFnIHkyJynR9Q&s"
+    ],
+    "newspaper_name": "N/A",
+    "severity": "heavy",
+    "death": 0,
+    "gemini_raw_response": "N/A",
+    "social_media_clips_link": [],
+    "source_url": "https://www.thenewsminute.com/karnataka/bengaluru-sees-wettest-april-seven-years-163058"
+  },
+  {
+    "Title": "Bengaluru rains: CM Bommai announces 300-crore relief for rain ...",
+    "image_urls": [
+      "https://images.mid-day.com/images/images/2022/sep/bengrains_d.jpg",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXl3S6dv6ifjJ-LPFRV_4eGxENXn_oLADJFuMNmbGE1fBRYOhf&s"
+    ],
+    "newspaper_name": "N/A",
+    "severity": "heavy",
+    "death": 0,
+    "gemini_raw_response": "N/A",
+    "social_media_clips_link": [],
+    "source_url": "https://www.mid-day.com/news/india-news/article/bengaluru-rains-cm-bommai-announces-300-crore-relief-for-rain-related-damages-23244498"
+  },
+  {
+    "Title": "Bengaluru swelters as monsoon dry spell continues | Bangalore News ...",
+    "image_urls": [
+      "https://images.indianexpress.com/2023/08/bengaluru-rains.jpg",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsCOXReY2d3hohmxE1W3qsxYtytNSRo0VOSvoRGV8gkyrxV0iW&s"
+    ],
+    "newspaper_name": "N/A",
+    "severity": "moderate",
+    "death": 0,
+    "gemini_raw_response": "N/A",
+    "social_media_clips_link": [],
+    "source_url": "https://indianexpress.com/article/cities/bangalore/bengaluru-swelters-monsoon-dry-spell-8891029/"
+  }
+]

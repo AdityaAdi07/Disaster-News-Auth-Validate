@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics - Disaster Intelligence Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <img src="/assets/logo.png" alt="Logo" class="logo">
+            <h3>Disaster Intelligence</h3>
+        </div>
+        <nav class="sidebar-nav">
+            <ul>
+                <li>
+                    <a href="/" class="nav-link">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/map" class="nav-link">
+                        <i class="fas fa-map-marked-alt"></i>
+                        <span>Map View</span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="/analytics" class="nav-link">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Analytics</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/alerts" class="nav-link">
+                        <i class="fas fa-bell"></i>
+                        <span>Alerts</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/admin" class="nav-link">
+                        <i class="fas fa-user-shield"></i>
+                        <span>Admin Panel</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <div class="sidebar-footer">
+            <button id="themeToggle" class="theme-toggle">
+                <i class="fas fa-moon"></i>
+                <span>Dark Mode</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Navigation -->
+        <nav class="top-nav">
+            <div class="nav-left">
+                <button id="sidebarToggle" class="sidebar-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search analytics...">
+                </div>
+            </div>
+            <div class="nav-right">
+                <div class="notifications">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge">3</span>
+                </div>
+                <div class="user-profile">
+                    <img src="/assets/avatar.png" alt="User">
+                    <span>Admin User</span>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Analytics Content -->
+        <div class="analytics-content">
+            <!-- Time Range Selector -->
+            <div class="time-range-selector">
+                <button class="time-btn active" data-range="24h">24 Hours</button>
+                <button class="time-btn" data-range="7d">7 Days</button>
+                <button class="time-btn" data-range="30d">30 Days</button>
+                <button class="time-btn" data-range="90d">90 Days</button>
+                <button class="time-btn" data-range="1y">1 Year</button>
+            </div>
+
+            <!-- Key Metrics -->
+            <div class="key-metrics">
+                <div class="metric-card">
+                    <div class="metric-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="metric-info">
+                        <h3>Total Incidents</h3>
+                        <p class="metric-value">1,234</p>
+                        <p class="metric-change positive">
+                            <i class="fas fa-arrow-up"></i>
+                            12.5%
+                        </p>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="metric-info">
+                        <h3>People Affected</h3>
+                        <p class="metric-value">45.2K</p>
+                        <p class="metric-change negative">
+                            <i class="fas fa-arrow-down"></i>
+                            8.3%
+                        </p>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="metric-info">
+                        <h3>Affected Areas</h3>
+                        <p class="metric-value">156</p>
+                        <p class="metric-change positive">
+                            <i class="fas fa-arrow-up"></i>
+                            5.2%
+                        </p>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="metric-info">
+                        <h3>Response Time</h3>
+                        <p class="metric-value">2.5h</p>
+                        <p class="metric-change positive">
+                            <i class="fas fa-arrow-up"></i>
+                            15.8%
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Analytics Grid -->
+            <div class="analytics-grid">
+                <!-- Incident Trends -->
+                <div class="analytics-card">
+                    <div class="card-header">
+                        <h3>Incident Trends</h3>
+                        <div class="card-actions">
+                            <button class="btn-action">
+                                <i class="fas fa-download"></i>
+                            </button>
+                            <button class="btn-action">
+                                <i class="fas fa-expand"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="incidentTrendsChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Disaster Type Distribution -->
+                <div class="analytics-card">
+                    <div class="card-header">
+                        <h3>Disaster Type Distribution</h3>
+                        <div class="card-actions">
+                            <button class="btn-action">
+                                <i class="fas fa-download"></i>
+                            </button>
+                            <button class="btn-action">
+                                <i class="fas fa-expand"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="disasterTypeChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Regional Analysis -->
+                <div class="analytics-card">
+                    <div class="card-header">
+                        <h3>Regional Analysis</h3>
+                        <div class="card-actions">
+                            <button class="btn-action">
+                                <i class="fas fa-download"></i>
+                            </button>
+                            <button class="btn-action">
+                                <i class="fas fa-expand"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="regionalAnalysisChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Severity Distribution -->
+                <div class="analytics-card">
+                    <div class="card-header">
+                        <h3>News Source Distribution</h3>
+                        <div class="card-actions">
+                            <button class="btn-action">
+                                <i class="fas fa-download"></i>
+                            </button>
+                            <button class="btn-action">
+                                <i class="fas fa-expand"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="newspaperDistribution"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Insights Panel -->
+            <div class="insights-panel">
+                <div class="panel-header">
+                    <h3>Key Insights</h3>
+                    <button class="btn-refresh">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                </div>
+                <div class="panel-content">
+                    <div class="insight-card">
+                        <div class="insight-icon warning">
+                            <i class="fas fa-exclamation-circle"></i>
+                        </div>
+                        <div class="insight-content">
+                            <h4>Flood Risk Increase</h4>
+                            <p>Flood incidents have increased by 25% in coastal regions during the monsoon season.</p>
+                            <div class="insight-meta">
+                                <span class="trend">
+                                    <i class="fas fa-arrow-up"></i>
+                                    25%
+                                </span>
+                                <span class="time">Last 30 days</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="insight-card">
+                        <div class="insight-icon success">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="insight-content">
+                            <h4>Improved Response Time</h4>
+                            <p>Average response time has decreased by 15% due to optimized resource allocation.</p>
+                            <div class="insight-meta">
+                                <span class="trend positive">
+                                    <i class="fas fa-arrow-down"></i>
+                                    15%
+                                </span>
+                                <span class="time">Last 30 days</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="insight-card">
+                        <div class="insight-icon info">
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                        <div class="insight-content">
+                            <h4>New Pattern Detected</h4>
+                            <p>Increased correlation between heat waves and forest fires in northern regions.</p>
+                            <div class="insight-meta">
+                                <span class="trend">
+                                    <i class="fas fa-chart-line"></i>
+                                    New Pattern
+                                </span>
+                                <span class="time">Last 7 days</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/js/theme.js"></script>
+    <script src="/js/analytics.js"></script>
+    <script>
+        // Newspaper Distribution Chart
+        const newspaperCtx = document.getElementById('newspaperDistribution').getContext('2d');
+        const newspaperChart = new Chart(newspaperCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Times of India', 'India Today', 'Hindustan Times', 'The Hindu', 'NDTV', 'BBC', 'Others'],
+                datasets: [{
+                    label: 'Number of Reports',
+                    data: [12, 8, 6, 5, 4, 3, 7],
+                    backgroundColor: [
+                        'rgba(54, 162, 235, 0.8)',
+                        'rgba(255, 99, 132, 0.8)',
+                        'rgba(75, 192, 192, 0.8)',
+                        'rgba(255, 206, 86, 0.8)',
+                        'rgba(153, 102, 255, 0.8)',
+                        'rgba(255, 159, 64, 0.8)',
+                        'rgba(199, 199, 199, 0.8)'
+                    ],
+                    borderColor: [
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(199, 199, 199, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    title: {
+                        display: true,
+                        text: 'Distribution of News Sources',
+                        font: {
+                            size: 16
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Number of Reports'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'News Sources'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html> 

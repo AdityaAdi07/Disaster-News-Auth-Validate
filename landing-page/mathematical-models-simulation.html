@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disaster Information Verification - Mathematical Models</title>
+    <link rel="stylesheet" href="main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4fc3f7;
+            --primary-dark: #1976d2;
+            --bg-dark: #0f172a;
+            --bg-surface: #1e293b;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --success-color: #4caf50;
+            --warning-color: #ff9800;
+            --error-color: #f44336;
+            --high-trust: #4caf50;
+            --medium-trust: #ff9800;
+            --low-trust: #f44336;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .simulation-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .simulation-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, var(--primary-color), var(--primary-dark));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .simulation-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .module-container {
+            background: var(--bg-surface);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .module-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .module-header h2 {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin: 0;
+        }
+
+        .module-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+        }
+
+        .visualization-area {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 20px;
+            min-height: 400px;
+            position: relative;
+        }
+
+        .controls-panel {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .btn {
+            background: linear-gradient(145deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(79, 195, 247, 0.5);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* PageRank Module Styles */
+        .node {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 2;
+            background: var(--bg-surface);
+            border: 2px solid var(--primary-color);
+        }
+
+        .node:hover {
+            transform: scale(1.1);
+        }
+
+        .edge {
+            position: absolute;
+            height: 2px;
+            background: var(--text-secondary);
+            transform-origin: left center;
+            z-index: 1;
+        }
+
+        .edge::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            border-left: 6px solid var(--text-secondary);
+            border-top: 4px solid transparent;
+            border-bottom: 4px solid transparent;
+        }
+
+        .trust-meter {
+            width: 100%;
+            height: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .trust-level {
+            height: 100%;
+            background: linear-gradient(to right, var(--low-trust), var(--medium-trust), var(--high-trust));
+            transition: width 0.3s ease;
+        }
+
+        /* Bayesian Network Styles */
+        .bayesian-node {
+            width: 120px;
+            height: 40px;
+            background: var(--bg-surface);
+            border: 2px solid var(--primary-color);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            margin: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .bayesian-node:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(79, 195, 247, 0.3);
+        }
+
+        .bayesian-node.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .probability-bar {
+            width: 100%;
+            height: 30px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .probability-level {
+            height: 100%;
+            background: linear-gradient(to right, var(--error-color), var(--warning-color), var(--success-color));
+            transition: width 0.3s ease;
+        }
+
+        /* Markov Chain Styles */
+        .markov-node {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: var(--bg-surface);
+            border: 2px solid var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            margin: 20px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .markov-node.active {
+            background: var(--primary-color);
+            color: white;
+            animation: pulse 2s infinite;
+        }
+
+        .markov-arrow {
+            position: absolute;
+            width: 2px;
+            background: var(--primary-color);
+            transform-origin: left center;
+        }
+
+        .markov-arrow::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            border-left: 8px solid var(--primary-color);
+            border-top: 6px solid transparent;
+            border-bottom: 6px solid transparent;
+        }
+
+        .transition-probability {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            color: var(--text-primary);
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(79, 195, 247, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(79, 195, 247, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(79, 195, 247, 0); }
+        }
+
+        .tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            z-index: 1000;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .tooltip.visible {
+            opacity: 1;
+        }
+
+        @media (max-width: 992px) {
+            .module-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Add new styles for explanation toggle */
+        .explanation-toggle {
+            background: none;
+            border: none;
+            color: var(--primary-color);
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-left: 10px;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .explanation-toggle:hover {
+            background: rgba(79, 195, 247, 0.1);
+        }
+
+        .explanation-text {
+            display: none;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            border-left: 3px solid var(--primary-color);
+        }
+
+        .explanation-text.visible {
+            display: block;
+        }
+
+        /* Update node colors for better visibility */
+        .node.high-trust {
+            background: var(--high-trust);
+            border-color: var(--high-trust);
+        }
+
+        .node.medium-trust {
+            background: var(--medium-trust);
+            border-color: var(--medium-trust);
+        }
+
+        .node.low-trust {
+            background: var(--low-trust);
+            border-color: var(--low-trust);
+        }
+
+        /* Add new styles for interactive elements */
+        .slider-container {
+            margin: 20px 0;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+        }
+
+        .slider-container label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--text-secondary);
+        }
+
+        .slider {
+            width: 100%;
+            height: 4px;
+            background: var(--bg-surface);
+            border-radius: 2px;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .slider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+            box-shadow: 0 0 10px var(--primary-color);
+        }
+
+        .narrative-box {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border-left: 3px solid var(--primary-color);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .history-log {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            max-height: 100px;
+            overflow-y: auto;
+        }
+
+        .confidence-dial {
+            width: 150px;
+            height: 150px;
+            position: relative;
+            margin: 20px auto;
+        }
+
+        .dial-background {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: conic-gradient(
+                var(--success-color) 0% 70%,
+                var(--warning-color) 70% 40%,
+                var(--error-color) 40% 100%
+            );
+            position: relative;
+        }
+
+        .dial-mask {
+            width: 80%;
+            height: 80%;
+            background: var(--bg-surface);
+            border-radius: 50%;
+            position: absolute;
+            top: 10%;
+            left: 10%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--text-primary);
+        }
+
+        .node.active {
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .transition-arrow {
+            position: absolute;
+            background: var(--primary-color);
+            height: 2px;
+            transform-origin: left center;
+            transition: all 0.3s ease;
+        }
+
+        .transition-arrow::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            border-left: 8px solid var(--primary-color);
+            border-top: 6px solid transparent;
+            border-bottom: 6px solid transparent;
+        }
+
+        .transition-label {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            color: var(--text-primary);
+            transform: translate(-50%, -50%);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="simulation-header">
+            <h1>Disaster Information Verification</h1>
+            <p>Interactive simulations of mathematical models used in disaster response</p>
+        </div>
+
+        <!-- PageRank Module -->
+        <div class="module-container" id="pagerankModule">
+            <div class="module-header">
+                <h2>PageRank - Source Credibility</h2>
+                <div>
+                    <button class="btn" id="stepPageRank">Step</button>
+                    <button class="btn" id="runPageRank">Run 3 Steps</button>
+                    <button class="btn" id="resetPageRank">Reset</button>
+                </div>
+            </div>
+            <div class="module-content">
+                <div class="visualization-area" id="pagerankVisualization">
+                    <!-- Graph will be rendered here -->
+                </div>
+                <div class="controls-panel">
+                    <div class="slider-container">
+                        <label>Damping Factor: <span id="dampingValue">0.85</span></label>
+                        <input type="range" class="slider" id="dampingSlider" min="0.5" max="0.95" step="0.01" value="0.85">
+                    </div>
+                    <div class="trust-meter">
+                        <div class="trust-level" id="trustLevel"></div>
+                    </div>
+                    <p id="trustScore">Average Trust Score: 0.20</p>
+                </div>
+            </div>
+            <div class="narrative-box">
+                User C's credibility increases as both A and E point to it. However, if User D has no followers, 
+                its influence reduces over iterations.
+            </div>
+        </div>
+
+        <!-- Bayesian Network Module -->
+        <div class="module-container" id="bayesianModule">
+            <div class="module-header">
+                <h2>Bayesian Network - Post Classification</h2>
+                <div>
+                    <button class="btn" id="evaluateBayesian">Evaluate</button>
+                    <button class="btn" id="resetBayesian">Reset</button>
+                </div>
+            </div>
+            <div class="module-content">
+                <div class="visualization-area" id="bayesianVisualization">
+                    <!-- Bayesian network will be rendered here -->
+                </div>
+                <div class="controls-panel">
+                    <div id="bayesianFactors">
+                        <!-- Factors will be added here -->
+                    </div>
+                    <div class="confidence-dial">
+                        <div class="dial-background"></div>
+                        <div class="dial-mask" id="confidenceValue">0%</div>
+                    </div>
+                    <p id="classificationResult">Classification: Evaluating...</p>
+                </div>
+            </div>
+            <div class="narrative-box">
+                This system learns that when the source is known and sensors confirm the event, confidence increases. 
+                Even negative sentiment alone doesn't reduce trust completely.
+            </div>
+        </div>
+
+        <!-- Markov Chain Module -->
+        <div class="module-container" id="markovModule">
+            <div class="module-header">
+                <h2>Markov Chain - Disaster Progression</h2>
+                <div>
+                    <button class="btn" id="stepMarkov">Next Step</button>
+                    <button class="btn" id="autoMarkov">Auto Simulate</button>
+                    <button class="btn" id="resetMarkov">Reset</button>
+                </div>
+            </div>
+            <div class="module-content">
+                <div class="visualization-area" id="markovVisualization">
+                    <!-- Markov chain will be rendered here -->
+                </div>
+                <div class="controls-panel">
+                    <h3>Current State</h3>
+                    <p id="currentState">Initial State: Low Risk</p>
+                    <p id="nextState">Next State: Calculating...</p>
+                    <div class="history-log" id="stateHistory">
+                        <!-- State history will be logged here -->
+                    </div>
+                </div>
+            </div>
+            <div class="narrative-box">
+                Using a Markov model, the system predicts the likelihood that a disaster will escalate based on 
+                previous behavior. Once it reaches Resolved, it stays there.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class MathematicalModelsSimulation {
+            constructor() {
+                // PageRank data
+                this.pageRankData = {
+                    nodes: [
+                        { id: "A", score: 0.2 },
+                        { id: "B", score: 0.2 },
+                        { id: "C", score: 0.2 },
+                        { id: "D", score: 0.2 },
+                        { id: "E", score: 0.2 }
+                    ],
+                    edges: [
+                        { from: "A", to: "B" },
+                        { from: "A", to: "C" },
+                        { from: "B", to: "D" },
+                        { from: "C", to: "D" },
+                        { from: "D", to: "A" },
+                        { from: "E", to: "A" },
+                        { from: "E", to: "C" }
+                    ],
+                    dampingFactor: 0.85
+                };
+
+                // Bayesian Network data
+                this.bayesianData = {
+                    factors: [
+                        { id: "source", name: "Source Type", value: "Trusted" },
+                        { id: "iot", name: "IoT Match", value: "Yes" },
+                        { id: "sentiment", name: "Sentiment", value: "Positive" }
+                    ],
+                    weights: {
+                        source: { Trusted: 0.9, Unknown: 0.4 },
+                        iot: { Yes: 0.95, No: 0.5 },
+                        sentiment: { Positive: 0.8, Negative: 0.3 }
+                    }
+                };
+
+                // Markov Chain data
+                this.markovData = {
+                    states: ["Low", "Medium", "High", "Resolved"],
+                    currentState: "Low",
+                    history: ["Low"],
+                    matrix: {
+                        "Low": { "Low": 0.5, "Medium": 0.5, "High": 0, "Resolved": 0 },
+                        "Medium": { "Low": 0, "Medium": 0.4, "High": 0.5, "Resolved": 0.1 },
+                        "High": { "Low": 0, "Medium": 0, "High": 0.7, "Resolved": 0.3 },
+                        "Resolved": { "Low": 0, "Medium": 0, "High": 0, "Resolved": 1.0 }
+                    }
+                };
+
+                this.setupEventListeners();
+                this.initializePageRank();
+                this.initializeBayesian();
+                this.initializeMarkov();
+            }
+
+            setupEventListeners() {
+                // PageRank controls
+                document.getElementById('stepPageRank').addEventListener('click', () => this.stepPageRank());
+                document.getElementById('runPageRank').addEventListener('click', () => this.runPageRank(3));
+                document.getElementById('resetPageRank').addEventListener('click', () => this.resetPageRank());
+                document.getElementById('dampingSlider').addEventListener('input', (e) => {
+                    this.pageRankData.dampingFactor = parseFloat(e.target.value);
+                    document.getElementById('dampingValue').textContent = e.target.value;
+                });
+
+                // Bayesian controls
+                document.getElementById('evaluateBayesian').addEventListener('click', () => this.evaluateBayesian());
+                document.getElementById('resetBayesian').addEventListener('click', () => this.resetBayesian());
+
+                // Markov controls
+                document.getElementById('stepMarkov').addEventListener('click', () => this.stepMarkov());
+                document.getElementById('autoMarkov').addEventListener('click', () => this.toggleAutoMarkov());
+                document.getElementById('resetMarkov').addEventListener('click', () => this.resetMarkov());
+            }
+
+            // PageRank Implementation
+            stepPageRank() {
+                const newScores = {};
+                
+                this.pageRankData.nodes.forEach(node => {
+                    let score = (1 - this.pageRankData.dampingFactor) / this.pageRankData.nodes.length;
+                    
+                    this.pageRankData.edges
+                        .filter(edge => edge.to === node.id)
+                        .forEach(edge => {
+                            const sourceNode = this.pageRankData.nodes.find(n => n.id === edge.from);
+                            const outgoingEdges = this.pageRankData.edges.filter(e => e.from === edge.from).length;
+                            score += this.pageRankData.dampingFactor * sourceNode.score / outgoingEdges;
+                        });
+                    
+                    newScores[node.id] = score;
+                });
+                
+                this.pageRankData.nodes.forEach(node => {
+                    node.score = newScores[node.id];
+                });
+                
+                this.renderPageRankGraph();
+                this.updateTrustMeter();
+            }
+
+            runPageRank(steps) {
+                for (let i = 0; i < steps; i++) {
+                    setTimeout(() => this.stepPageRank(), i * 1000);
+                }
+            }
+
+            resetPageRank() {
+                this.pageRankData.nodes.forEach(node => {
+                    node.score = 0.2;
+                });
+                this.renderPageRankGraph();
+                this.updateTrustMeter();
+            }
+
+            // Bayesian Network Implementation
+            evaluateBayesian() {
+                const confidence = this.bayesianData.factors.reduce((score, factor) => {
+                    return score * this.bayesianData.weights[factor.id][factor.value];
+                }, 1);
+
+                const confidencePercent = Math.round(confidence * 100);
+                document.getElementById('confidenceValue').textContent = `${confidencePercent}%`;
+                
+                let classification = "Evaluating...";
+                if (confidencePercent > 70) {
+                    classification = "Likely Real";
+                } else if (confidencePercent > 40) {
+                    classification = "Uncertain";
+                } else {
+                    classification = "Likely Fake";
+                }
+                
+                document.getElementById('classificationResult').textContent = `Classification: ${classification}`;
+            }
+
+            resetBayesian() {
+                this.bayesianData.factors.forEach(factor => {
+                    factor.value = factor.id === "source" ? "Trusted" : "Yes";
+                });
+                this.renderBayesianNetwork();
+                this.evaluateBayesian();
+            }
+
+            // Markov Chain Implementation
+            stepMarkov() {
+                const currentState = this.markovData.currentState;
+                const probabilities = this.markovData.matrix[currentState];
+                
+                const random = Math.random();
+                let cumulative = 0;
+                let nextState = currentState;
+                
+                for (const [state, prob] of Object.entries(probabilities)) {
+                    cumulative += prob;
+                    if (random <= cumulative) {
+                        nextState = state;
+                        break;
+                    }
+                }
+                
+                this.markovData.currentState = nextState;
+                this.markovData.history.push(nextState);
+                
+                this.renderMarkovChain();
+                this.updateStateHistory();
+            }
+
+            toggleAutoMarkov() {
+                const button = document.getElementById('autoMarkov');
+                if (this.autoMarkovInterval) {
+                    clearInterval(this.autoMarkovInterval);
+                    this.autoMarkovInterval = null;
+                    button.textContent = "Auto Simulate";
+                } else {
+                    this.autoMarkovInterval = setInterval(() => this.stepMarkov(), 5000);
+                    button.textContent = "Stop Auto";
+                }
+            }
+
+            resetMarkov() {
+                this.markovData.currentState = "Low";
+                this.markovData.history = ["Low"];
+                this.renderMarkovChain();
+                this.updateStateHistory();
+            }
+
+            // PageRank Rendering
+            renderPageRankGraph() {
+                const container = document.getElementById('pagerankVisualization');
+                container.innerHTML = '';
+                
+                // Calculate node positions in a circle
+                const centerX = container.clientWidth / 2;
+                const centerY = container.clientHeight / 2;
+                const radius = Math.min(centerX, centerY) * 0.7;
+                
+                // Render edges first (so they appear behind nodes)
+                this.pageRankData.edges.forEach(edge => {
+                    const sourceNode = this.pageRankData.nodes.find(n => n.id === edge.from);
+                    const targetNode = this.pageRankData.nodes.find(n => n.id === edge.to);
+                    
+                    const sourceIndex = this.pageRankData.nodes.indexOf(sourceNode);
+                    const targetIndex = this.pageRankData.nodes.indexOf(targetNode);
+                    
+                    const sourceAngle = (sourceIndex * 2 * Math.PI) / this.pageRankData.nodes.length;
+                    const targetAngle = (targetIndex * 2 * Math.PI) / this.pageRankData.nodes.length;
+                    
+                    const sourceX = centerX + radius * Math.cos(sourceAngle);
+                    const sourceY = centerY + radius * Math.sin(sourceAngle);
+                    const targetX = centerX + radius * Math.cos(targetAngle);
+                    const targetY = centerY + radius * Math.sin(targetAngle);
+                    
+                    const edgeElement = document.createElement('div');
+                    edgeElement.className = 'edge';
+                    
+                    const dx = targetX - sourceX;
+                    const dy = targetY - sourceY;
+                    const length = Math.sqrt(dx * dx + dy * dy);
+                    const angle = Math.atan2(dy, dx) * 180 / Math.PI;
+                    
+                    edgeElement.style.width = `${length}px`;
+                    edgeElement.style.left = `${sourceX}px`;
+                    edgeElement.style.top = `${sourceY}px`;
+                    edgeElement.style.transform = `rotate(${angle}deg)`;
+                    
+                    container.appendChild(edgeElement);
+                });
+                
+                // Render nodes
+                this.pageRankData.nodes.forEach((node, index) => {
+                    const angle = (index * 2 * Math.PI) / this.pageRankData.nodes.length;
+                    const x = centerX + radius * Math.cos(angle);
+                    const y = centerY + radius * Math.sin(angle);
+                    
+                    const nodeElement = document.createElement('div');
+                    nodeElement.className = 'node';
+                    nodeElement.textContent = node.id;
+                    nodeElement.style.left = `${x - 30}px`;
+                    nodeElement.style.top = `${y - 30}px`;
+                    
+                    // Set node color based on score
+                    if (node.score > 0.3) {
+                        nodeElement.classList.add('high-trust');
+                    } else if (node.score > 0.15) {
+                        nodeElement.classList.add('medium-trust');
+                    } else {
+                        nodeElement.classList.add('low-trust');
+                    }
+                    
+                    // Add tooltip
+                    nodeElement.addEventListener('mouseover', (e) => {
+                        const tooltip = document.createElement('div');
+                        tooltip.className = 'tooltip';
+                        tooltip.textContent = `Score: ${node.score.toFixed(3)}`;
+                        tooltip.style.left = `${e.pageX + 10}px`;
+                        tooltip.style.top = `${e.pageY + 10}px`;
+                        document.body.appendChild(tooltip);
+                        setTimeout(() => tooltip.classList.add('visible'), 10);
+                    });
+                    
+                    nodeElement.addEventListener('mouseout', () => {
+                        const tooltip = document.querySelector('.tooltip');
+                        if (tooltip) tooltip.remove();
+                    });
+                    
+                    container.appendChild(nodeElement);
+                });
+            }
+
+            updateTrustMeter() {
+                const avgScore = this.pageRankData.nodes.reduce((sum, node) => sum + node.score, 0) / this.pageRankData.nodes.length;
+                const trustLevel = document.getElementById('trustLevel');
+                const trustScore = document.getElementById('trustScore');
+                
+                trustLevel.style.width = `${avgScore * 100}%`;
+                trustScore.textContent = `Average Trust Score: ${avgScore.toFixed(3)}`;
+            }
+
+            // Bayesian Network Rendering
+            renderBayesianNetwork() {
+                const container = document.getElementById('bayesianVisualization');
+                const factorsContainer = document.getElementById('bayesianFactors');
+                container.innerHTML = '';
+                factorsContainer.innerHTML = '';
+                
+                // Create factor controls
+                this.bayesianData.factors.forEach(factor => {
+                    const factorElement = document.createElement('div');
+                    factorElement.className = 'bayesian-node';
+                    factorElement.textContent = `${factor.name}: ${factor.value}`;
+                    factorElement.dataset.id = factor.id;
+                    
+                    factorElement.addEventListener('click', () => {
+                        if (factor.id === 'source') {
+                            factor.value = factor.value === 'Trusted' ? 'Unknown' : 'Trusted';
+                        } else {
+                            factor.value = factor.value === 'Yes' ? 'No' : 'Yes';
+                        }
+                        factorElement.textContent = `${factor.name}: ${factor.value}`;
+                        this.evaluateBayesian();
+                    });
+                    
+                    factorsContainer.appendChild(factorElement);
+                });
+
+                // Create network visualization
+                const networkContainer = document.createElement('div');
+                networkContainer.style.position = 'relative';
+                networkContainer.style.height = '200px';
+                
+                // Add post node
+                const postNode = document.createElement('div');
+                postNode.className = 'bayesian-node';
+                postNode.textContent = 'Post';
+                postNode.style.position = 'absolute';
+                postNode.style.left = '50%';
+                postNode.style.top = '20px';
+                postNode.style.transform = 'translateX(-50%)';
+                networkContainer.appendChild(postNode);
+                
+                // Add factor nodes
+                this.bayesianData.factors.forEach((factor, index) => {
+                    const factorNode = document.createElement('div');
+                    factorNode.className = 'bayesian-node';
+                    factorNode.textContent = factor.name;
+                    factorNode.style.position = 'absolute';
+                    factorNode.style.left = `${25 + index * 25}%`;
+                    factorNode.style.top = '120px';
+                    factorNode.style.transform = 'translateX(-50%)';
+                    networkContainer.appendChild(factorNode);
+                    
+                    // Add connection line
+                    const line = document.createElement('div');
+                    line.className = 'edge';
+                    line.style.position = 'absolute';
+                    line.style.left = '50%';
+                    line.style.top = '60px';
+                    line.style.width = '2px';
+                    line.style.height = '60px';
+                    line.style.transform = `rotate(${(index - 1) * 30}deg)`;
+                    networkContainer.appendChild(line);
+                });
+                
+                container.appendChild(networkContainer);
+            }
+
+            // Markov Chain Rendering
+            renderMarkovChain() {
+                const container = document.getElementById('markovVisualization');
+                container.innerHTML = '';
+                
+                // Create state nodes
+                this.markovData.states.forEach((state, index) => {
+                    const node = document.createElement('div');
+                    node.className = 'markov-node';
+                    node.textContent = state;
+                    node.dataset.state = state;
+                    
+                    if (state === this.markovData.currentState) {
+                        node.classList.add('active');
+                    }
+                    
+                    node.style.position = 'absolute';
+                    node.style.left = `${20 + index * 20}%`;
+                    node.style.top = '50%';
+                    node.style.transform = 'translate(-50%, -50%)';
+                    
+                    container.appendChild(node);
+                    
+                    // Add transition arrows
+                    if (index < this.markovData.states.length - 1) {
+                        const nextState = this.markovData.states[index + 1];
+                        const prob = this.markovData.matrix[state][nextState];
+                        
+                        const arrow = document.createElement('div');
+                        arrow.className = 'transition-arrow';
+                        arrow.style.left = `${30 + index * 20}%`;
+                        arrow.style.top = '50%';
+                        arrow.style.width = '10%';
+                        arrow.style.transform = 'translateY(-50%)';
+                        
+                        const label = document.createElement('div');
+                        label.className = 'transition-label';
+                        label.textContent = `${(prob * 100).toFixed(0)}%`;
+                        label.style.left = `${35 + index * 20}%`;
+                        label.style.top = '40%';
+                        
+                        container.appendChild(arrow);
+                        container.appendChild(label);
+                    }
+                });
+            }
+
+            updateStateHistory() {
+                const historyContainer = document.getElementById('stateHistory');
+                historyContainer.innerHTML = this.markovData.history.join(' → ');
+                
+                document.getElementById('currentState').textContent = `Current State: ${this.markovData.currentState}`;
+                
+                // Calculate next state probabilities
+                const probabilities = this.markovData.matrix[this.markovData.currentState];
+                const nextStates = Object.entries(probabilities)
+                    .filter(([state, prob]) => prob > 0)
+                    .map(([state, prob]) => `${state} (${(prob * 100).toFixed(0)}%)`)
+                    .join(', ');
+                
+                document.getElementById('nextState').textContent = `Possible Next States: ${nextStates}`;
+            }
+
+            // Initialize all visualizations
+            initializePageRank() {
+                this.renderPageRankGraph();
+                this.updateTrustMeter();
+            }
+
+            initializeBayesian() {
+                this.renderBayesianNetwork();
+                this.evaluateBayesian();
+            }
+
+            initializeMarkov() {
+                this.renderMarkovChain();
+                this.updateStateHistory();
+            }
+        }
+
+        // Initialize simulation
+        const simulation = new MathematicalModelsSimulation();
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            simulation.initializePageRank();
+            simulation.initializeBayesian();
+            simulation.initializeMarkov();
+        });
+    </script>
+</body>
+</html> 

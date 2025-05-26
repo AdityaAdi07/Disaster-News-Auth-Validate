@@ -1,0 +1,52 @@
+[
+  {
+    "event": "flood",
+    "title": "Thousands remain isolated as floods ease in eastern Australia",
+    "source_url": "https://timesofindia.indiatimes.com/world/rest-of-world/thousands-remain-isolated-as-floods-ease-in-eastern-australia/articleshow/121375789.cms",
+    "newspaper": "Times of India",
+    "severity": "moderate",
+    "city": "Kolkata",
+    "state": "unknown",
+    "gemini_raw_response": null
+  },
+  {
+    "event": "flood",
+    "title": "Bengaluru: Parts of India's 'Silicon Valley' flooded after heavy rains",
+    "source_url": "https://www.bbc.com/news/articles/c7800l27ynzo",
+    "newspaper": "BBC",
+    "severity": "severe",
+    "city": "Bangalore",
+    "state": "Karnataka",
+    "gemini_raw_response": null
+  },
+  {
+    "event": "flood",
+    "title": "Fact check: Did India trigger a flood in Pakistan?",
+    "source_url": "https://www.dw.com/en/flooding-in-pakistan-water-conflict-indus-water-treaty-disinformation/a-72393131",
+    "newspaper": "DW",
+    "severity": "moderate",
+    "city": "Mumbai",
+    "state": "unknown",
+    "gemini_raw_response": null
+  },
+  {
+    "event": "flood",
+    "title": "Monsoon floods kill dozens in India, thousands in relief camps",
+    "source_url": "https://www.aljazeera.com/news/2024/9/2/monsoon-floods-kill-dozens-in-india-thousands-in-relief-camps",
+    "newspaper": "Al Jazeera",
+    "severity": "severe",
+    "city": "Ahmedabad",
+    "state": "unknown",
+    "gemini_raw_response": null
+  },
+  {
+    "event": "flood",
+    "title": "States told to take precautionary steps to mitigate impact of potential flood",
+    "source_url": "https://www.newindianexpress.com/nation/2025/May/24/states-told-to-take-precautionary-steps-to-mitigate-impact-of-potential-flood",
+    "newspaper": "The New Indian Express",
+    "severity": "moderate",
+    "city": "Delhi",
+    "state": "unknown",
+    "gemini_raw_response": null
+  }
+]
