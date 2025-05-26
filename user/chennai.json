@@ -1,0 +1,82 @@
+[
+  {
+    "name": "Apollo Hospitals Chennai",
+    "type": "Hospital",
+    "address": "21, Greams Lane, Off Greams Road, Chennai, Tamil Nadu 600006, India",
+    "phone": "044 2829 0200",
+    "maps_url": "https://maps.google.com/?cid=17374933825394940205",
+    "image_url": "https://www.apollohospitals.com/wp-content/uploads/2023/09/apollo-hospital-chennai-greams-road.jpg"
+  },
+  {
+    "name": "Fortis Malar Hospital",
+    "type": "Hospital",
+    "address": "52, 1st Main Rd, Gandhi Nagar, Adyar, Chennai, Tamil Nadu 600020, India",
+    "phone": "044 4289 2222",
+    "maps_url": "https://maps.google.com/?cid=16249666984584099862",
+    "image_url": "https://www.fortismalar.com/uploads/fortis-malar.jpg"
+  },
+  {
+    "name": "MIOT International",
+    "type": "Hospital",
+    "address": "4/112, Mount Poonamallee Rd, Manapakkam, Chennai, Tamil Nadu 600089, India",
+    "phone": "044 2249 2249",
+    "maps_url": "https://maps.google.com/?cid=8914177230590407465",
+    "image_url": "https://www.miothospitals.com/wp-content/uploads/2023/03/MIOT-International-1.jpg"
+  },
+  {
+    "name": "Government General Hospital",
+    "type": "Hospital",
+    "address": "Park Town, Chennai, Tamil Nadu 600003, India",
+    "phone": "044 2530 0000",
+    "maps_url": "https://maps.google.com/?cid=11316883123316744761",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Government_General_Hospital_Chennai.jpg/800px-Government_General_Hospital_Chennai.jpg"
+  },
+  {
+    "name": "Stanley Medical College Hospital",
+    "type": "Hospital",
+    "address": "1, Old Jail Rd, Royapuram, Chennai, Tamil Nadu 600001, India",
+    "phone": "044 2528 1051",
+    "maps_url": "https://maps.google.com/?cid=13128653405671691989",
+    "image_url": "https://content3.jdmagicbox.com/comp-imgs/comp-1463101845-0452_1.jpg"
+  },
+  {
+    "name": "Chennai Fire Station - Egmore",
+    "type": "Fire Station",
+    "address": "Gandhi Irwin Rd, Egmore, Chennai, Tamil Nadu 600008, India",
+    "phone": "",
+    "maps_url": "https://maps.google.com/?cid=16399871545870268152",
+    "image_url": null
+  },
+  {
+    "name": "Chennai Police Station - Anna Nagar",
+    "type": "Police Station",
+    "address": "Y Block, 3rd Main Rd, Anna Nagar, Chennai, Tamil Nadu 600040, India",
+    "phone": "",
+    "maps_url": "https://maps.google.com/?cid=14373625980364733540",
+    "image_url": null
+  },
+  {
+    "name": "Tamil Nadu State Disaster Management Authority",
+    "type": "NGO",
+    "address": "Ezhilagam, Anna Salai, Chepauk, Chennai, Tamil Nadu 600005, India",
+    "phone": "",
+    "maps_url": "https://maps.google.com/?cid=1639378486356013594",
+    "image_url": null
+  },
+  {
+    "name": "Kanchi Kamakoti Childs Trust Hospital",
+    "type": "Hospital",
+    "address": "12A, Nageswara Rd, Nungambakkam, Chennai, Tamil Nadu 600034, India",
+    "phone": "044 2831 1551",
+    "maps_url": "https://maps.google.com/?cid=14561614136272955631",
+    "image_url": null
+  },
+  {
+    "name": "GH - Royapettah Government Hospital",
+    "type": "Hospital",
+    "address": "Westcott Rd, Royapettah, Chennai, Tamil Nadu 600014, India",
+    "phone": "044 2813 0181",
+    "maps_url": "https://maps.google.com/?cid=16353722185086748157",
+    "image_url": null
+  }
+]

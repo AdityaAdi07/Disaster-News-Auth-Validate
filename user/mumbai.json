@@ -1,0 +1,82 @@
+[
+  {
+    "name": "Sir H. N. Reliance Foundation Hospital",
+    "type": "Hospital",
+    "address": "Raja Ram Mohan Roy Rd, Prarthana Samaj, Girgaon, Mumbai, Maharashtra 400004",
+    "phone": "022 6130 5100",
+    "maps_url": "https://maps.google.com/?cid=15989931729331122104",
+    "image_url": "https://lh3.googleusercontent.com/p/AF1QipP0y0g3RjK-vj2uN1d-b8eL8R9f1jD1vV0sV2q=s1600"
+  },
+  {
+    "name": "Breach Candy Hospital Trust",
+    "type": "Hospital",
+    "address": "60A, Bhulabhai Desai Rd, Cumballa Hill, Mumbai, Maharashtra 400026",
+    "phone": "022 2366 6666",
+    "maps_url": "https://maps.google.com/?cid=4957128796387747058",
+    "image_url": "https://lh3.googleusercontent.com/p/AF1QipO6vL2J9h_3fU5s0B_m8H5cW0Qf-h9E4x6x5i7e=s1600"
+  },
+  {
+    "name": "Mumbai Fire Brigade Headquarters",
+    "type": "Fire Station",
+    "address": "Keshavrao Khadye Marg, Jacob Circle, Charni Road, Mumbai, Maharashtra 400011",
+    "phone": "101",
+    "maps_url": "https://maps.google.com/?cid=15881261952773033639",
+    "image_url": null
+  },
+  {
+    "name": "Gamdevi Police Station",
+    "type": "Police Station",
+    "address": "Dr. B.A. Road, Gamdevi, Mumbai, Maharashtra 400007",
+    "phone": "022 2387 0188",
+    "maps_url": "https://maps.google.com/?cid=14157456497427844670",
+    "image_url": null
+  },
+  {
+    "name": "JJ Hospital",
+    "type": "Hospital",
+    "address": "J J Marg, Police Head Quarter, Mumbai, Maharashtra 400008",
+    "phone": "022 2373 5555",
+    "maps_url": "https://maps.google.com/?cid=17171400245662432858",
+    "image_url": "https://lh3.googleusercontent.com/p/AF1QipMzY2-Q24a0m4x3Hh1YhT70h-yH-X93-u3R8s6v=s1600"
+  },
+  {
+    "name": "Indian Red Cross Society - Mumbai Branch",
+    "type": "NGO",
+    "address": "Red Cross Bhavan, 141, Shahid Bhagat Singh Road, Fort, Mumbai, Maharashtra 400001",
+    "phone": "022 2266 2606",
+    "maps_url": "https://maps.google.com/?cid=1503687806879147108",
+    "image_url": null
+  },
+  {
+    "name": "KEM Hospital",
+    "type": "Hospital",
+    "address": "Acharya Donde Marg, Parel, Mumbai, Maharashtra 400012",
+    "phone": "022 2410 7000",
+    "maps_url": "https://maps.google.com/?cid=14090883558229330202",
+    "image_url": "https://lh3.googleusercontent.com/p/AF1QipNz5-N8J612VzR-M0H14XGz8a0fJ84q5hVv5k9=s1600"
+  },
+  {
+    "name": "Bandra Fire Station",
+    "type": "Fire Station",
+    "address": "Bandra West, Mumbai, Maharashtra 400050",
+    "phone": "101",
+    "maps_url": "https://maps.google.com/?cid=12452120018571149210",
+    "image_url": null
+  },
+  {
+    "name": "Bandra Police Station",
+    "type": "Police Station",
+    "address": "Opposite Lilavati Hospital, Bandra West, Mumbai, Maharashtra 400050",
+    "phone": "022 2642 1371",
+    "maps_url": "https://maps.google.com/?cid=15955257883330780763",
+    "image_url": null
+  },
+  {
+    "name": "Hinduja Healthcare Surgical",
+    "type": "Medical Centre",
+    "address": "11/12, 14th Rd, Khar West, Mumbai, Maharashtra 400052",
+    "phone": "022 2604 7300",
+    "maps_url": "https://maps.google.com/?cid=14989458128870003498",
+    "image_url": null
+  }
+]

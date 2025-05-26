@@ -1,0 +1,82 @@
+[
+  {
+    "name": "Fortis Hospital Bannerghatta",
+    "type": "Hospital",
+    "address": "154/9, Bannerghatta Road, Opposite IIM-B, Bengaluru, Karnataka 560076",
+    "phone": "080 6621 4444",
+    "maps_url": "https://maps.google.com/?cid=16256931045297140312",
+    "image_url": "https://lh3.googleusercontent.com/p/APX6e9c9H-r556jTjM7N1iQ4S_bX7G2x9zF45XgC_yP7=s1600"
+  },
+  {
+    "name": "Apollo Hospitals Bannerghatta Road",
+    "type": "Hospital",
+    "address": "Survey No. 212/1 & 212/2, Opp. IIM, Bannerghatta Road, Bangalore, Karnataka 560076",
+    "phone": "080 2630 4040",
+    "maps_url": "https://maps.google.com/?cid=15113171701883415942",
+    "image_url": "https://lh3.googleusercontent.com/p/APX6e9cM_6U68c08-z4o_d7l5z6rX_6R4X8y_c0lB-Fk=s1600"
+  },
+  {
+    "name": "BGS Gleneagles Global Hospital",
+    "type": "Hospital",
+    "address": "67, Uttarahalli Main Road, Kengeri, Bengaluru, Karnataka 560060",
+    "phone": "080 2625 2525",
+    "maps_url": "https://maps.google.com/?cid=3962934685476081450",
+    "image_url": "https://lh3.googleusercontent.com/p/APX6e9cI5f88c3o4w0iYV682_86S2vY-9w3oQ4q8F_2J=s1600"
+  },
+  {
+    "name": "Manipal Hospital Whitefield",
+    "type": "Hospital",
+    "address": "EPIP Industrial Area, Whitefield, Bengaluru, Karnataka 560066",
+    "phone": "080 2808 2808",
+    "maps_url": "https://maps.google.com/?cid=7948169539924958757",
+    "image_url": "https://lh3.googleusercontent.com/p/APX6e9f2tT6aQ69v9y0gN00k9jL5v-e5dE5y1y9U4A7K=s1600"
+  },
+  {
+    "name": "Koramangala Fire Station",
+    "type": "Fire Station",
+    "address": "80 Feet Rd, Koramangala 8th Block, Koramangala, Bengaluru, Karnataka 560095",
+    "phone": "",
+    "maps_url": "https://maps.google.com/?cid=13626765481983079555",
+    "image_url": null
+  },
+  {
+    "name": "Ashok Nagar Police Station",
+    "type": "Police Station",
+    "address": "Richmond Rd, Ashok Nagar, Bengaluru, Karnataka 560025",
+    "phone": "",
+    "maps_url": "https://maps.google.com/?cid=7613914087505300310",
+    "image_url": null
+  },
+  {
+    "name": "Cubbon Park Police Station",
+    "type": "Police Station",
+    "address": "Ambedkar Veedhi, Sampangi Rama Nagar, Bengaluru, Karnataka 560001",
+    "phone": "",
+    "maps_url": "https://maps.google.com/?cid=13861609432238949320",
+    "image_url": null
+  },
+  {
+    "name": "Indian Red Cross Society - Karnataka State Branch",
+    "type": "NGO",
+    "address": "26, Red Cross Bhavan, Race Course Rd, Bengaluru, Karnataka 560001",
+    "phone": "080 2226 3939",
+    "maps_url": "https://maps.google.com/?cid=9959854391441438229",
+    "image_url": null
+  },
+  {
+    "name": "Karnataka State Natural Disaster Monitoring Centre",
+    "type": "NGO",
+    "address": "KSNDMC, Natural Disaster Monitoring Centre, 7th Floor, TTMC Building, BMTC Complex, Shanti Nagar, Bengaluru, Karnataka 560027",
+    "phone": "080 2222 6110",
+    "maps_url": "https://maps.google.com/?cid=14262103034690979661",
+    "image_url": null
+  },
+  {
+    "name": "Aster Medsafe Clinic",
+    "type": "Medical Centre",
+    "address": "Prestige Opal, Site No. 24, HAL 2nd Stage, Kodihalli, Bengaluru, Karnataka 560008",
+    "phone": "080 4342 0100",
+    "maps_url": "https://maps.google.com/?cid=1019960155666568063",
+    "image_url": null
+  }
+]

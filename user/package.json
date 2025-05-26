@@ -1,0 +1,12 @@
+{
+  "name": "disaster-intelligence-user",
+  "version": "1.0.0",
+  "description": "User interface for Disaster Intelligence System",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+} 

@@ -1,0 +1,82 @@
+[
+  {
+    "name": "Apollo Hospitals",
+    "type": "Hospital",
+    "address": "Jubilee Hills, Hyderabad, Telangana 500033",
+    "phone": "040 2360 7777",
+    "maps_url": "https://maps.google.com/?cid=15989931729331122104",
+    "image_url": "https://lh3.googleusercontent.com/p/AF1QipP0y0g3RjK-vj2uN1d-b8eL8R9f1jD1vV0sV2q=s1600"
+  },
+  {
+    "name": "KIMS Hospital",
+    "type": "Hospital",
+    "address": "1-8-31/1, Minister Road, Secunderabad, Telangana 500003",
+    "phone": "040 4488 5000",
+    "maps_url": "https://maps.google.com/?cid=4957128796387747058",
+    "image_url": null
+  },
+  {
+    "name": "Hyderabad Fire Station",
+    "type": "Fire Station",
+    "address": "Fire Station Road, Secunderabad, Telangana 500003",
+    "phone": "101",
+    "maps_url": "https://maps.google.com/?cid=15881261952773033639",
+    "image_url": null
+  },
+  {
+    "name": "Banjara Hills Police Station",
+    "type": "Police Station",
+    "address": "Road No. 12, Banjara Hills, Hyderabad, Telangana 500034",
+    "phone": "040 2355 5000",
+    "maps_url": "https://maps.google.com/?cid=14157456497427844670",
+    "image_url": null
+  },
+  {
+    "name": "Yashoda Hospitals",
+    "type": "Hospital",
+    "address": "Raj Bhavan Road, Somajiguda, Hyderabad, Telangana 500082",
+    "phone": "040 2337 9999",
+    "maps_url": "https://maps.google.com/?cid=17171400245662432858",
+    "image_url": null
+  },
+  {
+    "name": "Indian Red Cross Society - Hyderabad Branch",
+    "type": "NGO",
+    "address": "Red Cross Bhavan, 1-10-5/3, Red Hills, Hyderabad, Telangana 500004",
+    "phone": "040 2339 9999",
+    "maps_url": "https://maps.google.com/?cid=1503687806879147108",
+    "image_url": null
+  },
+  {
+    "name": "Fernandez Hospital",
+    "type": "Hospital",
+    "address": "4-1-1230, Bogulkunta, Hyderabad, Telangana 500001",
+    "phone": "040 2320 4444",
+    "maps_url": "https://maps.google.com/?cid=14090883558229330202",
+    "image_url": null
+  },
+  {
+    "name": "Secunderabad Fire Station",
+    "type": "Fire Station",
+    "address": "Fire Station Road, Secunderabad, Telangana 500003",
+    "phone": "101",
+    "maps_url": "https://maps.google.com/?cid=12452120018571149210",
+    "image_url": null
+  },
+  {
+    "name": "Jubilee Hills Police Station",
+    "type": "Police Station",
+    "address": "Road No. 36, Jubilee Hills, Hyderabad, Telangana 500033",
+    "phone": "040 2354 5555",
+    "maps_url": "https://maps.google.com/?cid=15955257883330780763",
+    "image_url": null
+  },
+  {
+    "name": "Continental Hospitals",
+    "type": "Medical Centre",
+    "address": "Plot No. 3, Road No. 10, Banjara Hills, Hyderabad, Telangana 500034",
+    "phone": "040 6700 0000",
+    "maps_url": "https://maps.google.com/?cid=14989458128870003498",
+    "image_url": null
+  }
+]
