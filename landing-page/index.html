@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disaster Information Aggregator & Verifier</title>
+    <link rel="stylesheet" href="main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome for tech icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4fc3f7;
+            --primary-dark: #1976d2;
+            --bg-dark: #0f172a;
+            --bg-surface: #1e293b;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section {
+            padding: 80px 0;
+        }
+
+        .card {
+            background: linear-gradient(145deg, var(--bg-surface), var(--bg-dark));
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn {
+            background: linear-gradient(145deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(79, 195, 247, 0.5);
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .tech-card {
+            background: linear-gradient(145deg, var(--bg-surface), var(--bg-dark));
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .tech-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .simulation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .simulation-card {
+            background: linear-gradient(145deg, var(--bg-surface), var(--bg-dark));
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .simulation-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .analytics-card {
+            background: linear-gradient(145deg, var(--bg-surface), var(--bg-dark));
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .tech-icon {
+            font-size: 2.5rem;
+            margin-bottom: 18px;
+            color: var(--primary-color);
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .section {
+                padding: 40px 0;
+            }
+
+            .tech-grid,
+            .simulation-grid,
+            .analytics-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <h1>DIAV</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#tech">Tech Stack</a></li>
+                <li><a href="#simulations">Simulations</a></li>
+                <li><a href="#dashboard">Dashboard</a></li>
+                <li><a href="#analytics">Analytics</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-content">
+                <h1 style="font-family: 'Orbitron', sans-serif; font-size: 46px; color: #29d4fd; margin-bottom: 16px;">
+                    Disaster Information Aggregator & Verifier</h1>
+                <p style="color: #b0b0b0; font-size: 26px; margin-bottom: 32px;">Combining Real-Time IoT, Graph
+                    Algorithms, and Social Analytics for Smarter Emergency Response</p>
+
+                <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+                    <!-- Button 1 -->
+                    <button
+                        style="background: linear-gradient(90deg, #00ffe1, #00c3ff); color: #0a0f1a; padding: 14px 28px; font-size: 15px; font-weight: bolder; font-family: 'Orbitron', sans-serif; border: none; border-radius: 8px; cursor: pointer; box-shadow: 0 0 12px #00ffe150; transition: transform 0.2s ease;"
+                        onclick="window.location.href='http://localhost:3000/'">
+                        Launch Dashboard
+                    </button>
+
+
+                    <!-- Button 2 -->
+                    <button id="exploreModelsBtn"
+                        style="background: linear-gradient(90deg, #d122ff, #6e00ff); color: #ffffff; padding: 14px 28px; font-size: 15px;font-weight: bolder; font-family: 'Orbitron', sans-serif; border: none; border-radius: 8px; cursor: pointer; box-shadow: 0 0 12px #d122ff80; transition: transform 0.2s ease;">
+                        Explore Models
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2>About the Project</h2>
+            </div>
+            <div class="card"
+                style="display: flex; flex-wrap: wrap; align-items: center; gap: 32px; background: linear-gradient(135deg, var(--bg-surface) 70%, var(--primary-color) 100%);">
+                <div style="flex: 1; min-width: 250px; text-align: center;">
+                    <img src="assets/intro.png" alt="Disaster Response"
+                        style="width: 90%; max-width: 320px; border-radius: 16px; box-shadow: 0 4px 24px rgba(0,0,0,0.2);">
+                </div>
+                <div style="flex: 2; min-width: 280px;">
+                    <p style="font-size: 1.15rem; font-weight: 500; color: var(--text-primary); margin-bottom: 1.5rem;">
+                        Our mission is to revolutionize emergency response through real-time data aggregation and
+                        intelligent verification. By combining IoT sensors, social media analytics, and advanced graph
+                        algorithms, we provide accurate, verified disaster information to first responders and affected
+                        communities.</p>
+                    <div class="key-goals"
+                        style="background: rgba(79,195,247,0.07); border-radius: 8px; padding: 16px 20px;">
+                        <h3 style="color: var(--primary-color); margin-bottom: 10px;">Key Goals</h3>
+                        <ul style="list-style: disc inside; color: var(--text-secondary); font-size: 1.05rem;">
+                            <li>Real-time disaster information updates</li>
+                            <li>Reliable alert verification system</li>
+                            <li>Accessible visual dashboards</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Simulations Section -->
+    <section id="simulations" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Interactive Simulations</h2>
+            </div>
+            <div class="simulation-grid">
+                <a href="communication-simulation.html" style="text-decoration: none; color: inherit;">
+                    <div class="simulation-card">
+                        <i class="fas fa-network-wired" style="font-size:32px; color:#007BFF; margin-bottom:8px;"></i>
+                        <h3>WebSocket Stream</h3>
+                        <p>Computer-Networks implementation using persistent WebSocket connection.</p>
+                    </div>
+                </a>
+
+                <a href="iot-sensor-simulation.html" style="text-decoration: none; color: inherit;">
+                    <div class="simulation-card">
+                        <i class="fas fa-microchip" style="font-size:32px; color:#007BFF; margin-bottom:8px;"></i>
+                        <h3>IoT Detection</h3>
+                        <p>IoT simulation of how readings and sensing is processed. And when injected with anomaly
+                            sequence of events.</p>
+                    </div>
+                </a>
+
+                <a href="graph-algorithm-simulation.html" style="text-decoration: none; color: inherit;">
+                    <div class="simulation-card">
+                        <i class="fas fa-project-diagram" style="font-size:32px; color:#007BFF; margin-bottom:8px;"></i>
+                        <h3>Graph Traversal</h3>
+                        <p>DAA implementation of graph networks, how traversing is done and optimized based on nodes and
+                            cost.</p>
+                    </div>
+                </a>
+
+                <a href="mathematical-models-simulation.html" style="text-decoration: none; color: inherit;">
+                    <div class="simulation-card">
+                        <i class="fas fa-chart-line" style="font-size:32px; color:#007BFF; margin-bottom:8px;"></i>
+                        <h3>Graph Theory and Probability Model</h3>
+                        <p>Mathematical implementation of graphs and predictive models utilized.</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Stack Section (moved below Simulations) -->
+    <section id="tech" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Technology Stack</h2>
+            </div>
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <span class="tech-icon"><i class="fas fa-microchip"></i></span>
+                    <h3>IoT Integration</h3>
+                    <p>MQTT, Sensor Streaming</p>
+                </div>
+                <div class="tech-card">
+                    <span class="tech-icon"><i class="fas fa-network-wired"></i></span>
+                    <h3>Network Protocols</h3>
+                    <p>MQTT, REST, WebSockets</p>
+                </div>
+                <div class="tech-card">
+                    <span class="tech-icon"><i class="fas fa-project-diagram"></i></span>
+                    <h3>Algorithms</h3>
+                    <p>Graph Diffusion, Dijkstra, Greedy, DP</p>
+                </div>
+                <div class="tech-card">
+                    <span class="tech-icon"><i class="fas fa-square-root-alt"></i></span>
+                    <h3>Mathematics</h3>
+                    <p>Credibility Scoring, Centrality, Cascade Models</p>
+                </div>
+                <div class="tech-card">
+                    <span class="tech-icon"><i class="fas fa-database"></i></span>
+                    <h3>Database</h3>
+                    <p>MongoDB Atlas</p>
+                </div>
+                <div class="tech-card">
+                    <span class="tech-icon"><i class="fab fa-python"></i></span>
+                    <h3>Backend</h3>
+                    <p>Flask (API, WebSocket)</p>
+                </div>
+                <div class="tech-card">
+                    <span class="tech-icon"><i class="fab fa-html5"></i> <i class="fab fa-css3-alt"></i> <i
+                            class="fab fa-js"></i></span>
+                    <h3>Frontend</h3>
+                    <p>HTML, CSS, JavaScript</p>
+                </div>
+                <div class="tech-card">
+                    <span class="tech-icon"><i class="fas fa-brain"></i></span>
+                    <h3>LLM 's</h3>
+                    <p>Gemmini, Flash 2.0, Llavva</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Image Gallery Section (new) -->
+    <section id="gallery" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Project Gallery</h2>
+            </div>
+            <div class="gallery-grid"
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px;">
+                <div class="card" style="padding: 0; overflow: hidden;">
+                    <img src="assets/iot-demo.png" alt="IoT Sensor Deployment"
+                        style="width: 100%; height: 180px; object-fit: cover;">
+                    <div style="padding: 16px;">
+                        <h4>IoT Sensor Deployment</h4>
+                        <p>Field installation of environmental sensors in disaster-prone zones.</p>
+                    </div>
+                </div>
+                <div class="card" style="padding: 0; overflow: hidden;">
+                    <img src="assets/cn-demo.png" alt="Live Dashboard"
+                        style="width: 100%; height: 180px; object-fit: cover;">
+                    <div style="padding: 16px;">
+                        <h4>WebSocket</h4>
+                        <p>Websocket simulation for data communication-simulation.</p>
+                    </div>
+                </div>
+                <div class="card" style="padding: 0; overflow: hidden;">
+                    <img src="assets/daa-demo.png" alt="Social Media Analytics"
+                        style="width: 100%; height: 180px; object-fit: cover;">
+                    <div style="padding: 16px;">
+                        <h4>Graph-Networks</h4>
+                        <p>Graph travesing of data where nodes are componenets.</p>
+                    </div>
+                </div>
+                <div class="card" style="padding: 0; overflow: hidden;">
+                    <img src="assets/math-demo.png" alt="AI Verification"
+                        style="width: 100%; height: 180px; object-fit: cover;">
+                    <div style="padding: 16px;">
+                        <h4>Graph-theory & Predictive models</h4>
+                        <p>Machine learning models for credibility and anomaly detection.</p>
+                    </div>
+                </div>
+                <div class="card" style="padding: 0; overflow: hidden;">
+                    <img src="assets/feed.png" alt="AI Verification"
+                        style="width: 100%; height: 180px; object-fit: cover;">
+                    <div style="padding: 16px;">
+                        <h4>Live-Feed Dashboard</h4>
+                        <p>Displays live feed data and source along with social media interaction. Also provides
+                            summary.</p>
+                    </div>
+                </div>
+                <div class="card" style="padding: 0; overflow: hidden;">
+                    <img src="assets/iot-data.png" alt="AI Verification"
+                        style="width: 100%; height: 180px; object-fit: cover;">
+                    <div style="padding: 16px;">
+                        <h4>IoT-Live data Dashboard</h4>
+                        <p>Displays live feed data of iot readings, battery level and condition.</p>
+                    </div>
+                </div>
+                <div class="card" style="padding: 0; overflow: hidden;">
+                    <img src="assets/analytics.png" alt="AI Verification"
+                        style="width: 100%; height: 180px; object-fit: cover;">
+                    <div style="padding: 16px;">
+                        <h4>Analytics Dashboard</h4>
+                        <p>Displays live analytics in form of charts.</p>
+                    </div>
+                </div>
+                <div class="card" style="padding: 0; overflow: hidden;">
+                    <img src="assets/map.png" alt="AI Verification"
+                        style="width: 100%; height: 180px; object-fit: cover;">
+                    <div style="padding: 16px;">
+                        <h4>Map Visual</h4>
+                        <p>Displays live geographic locations of the event.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Analytics Section -->
+    <section id="analytics"
+        style="padding: 60px 20px; background-color: #0a0f1a; color: white; font-family: 'Orbitron', sans-serif;">
+        <div style="max-width: 1200px; margin: auto;">
+
+            <!-- Header -->
+            <div style="text-align: center; margin-bottom: 40px;">
+                <h2 style="font-size: 36px; color: #29d4fd; letter-spacing: 2px;">ANALYTICS OVERVIEW</h2>
+                <p style="color: #b0b0b0; font-size: 14px;">A summarized view of disaster events, regional activity, and
+                    current trends</p>
+            </div>
+
+            <!-- Grid -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+
+                <!-- Card 1: Disaster Types -->
+                <div
+                    style="background-color: #141b2b; padding: 24px; border-radius: 12px; box-shadow: 0 0 12px #0ff2ff40;">
+                    <h3 style="font-size: 18px; color: #00d0ff; margin-bottom: 12px;">Disaster Types</h3>
+                    <img src="https://quickchart.io/chart?c={type:'pie',data:{labels:['Flood','Earthquake','Fire','Storm'],datasets:[{data:[40,25,20,15]}]}}"
+                        alt="Pie Chart" style="width: 100%; border-radius: 8px; border: 1px solid #00d0ff30;">
+                    <p style="margin-top: 10px; font-size: 14px; color: #c0c0c0;">Floods accounted for the majority of
+                        reported disasters.</p>
+                </div>
+
+                <!-- Card 2: Regional Distribution -->
+                <div
+                    style="background-color: #141b2b; padding: 24px; border-radius: 12px; box-shadow: 0 0 12px #0ff2ff40;">
+                    <h3 style="font-size: 18px; color: #00d0ff; margin-bottom: 12px;">Regional Distribution</h3>
+                    <img src="https://quickchart.io/chart?c={type:'bar',data:{labels:['Asia','North America','Europe','Africa'],datasets:[{label:'Incidents',data:[120,90,60,80]}]}}"
+                        alt="Bar Graph" style="width: 100%; border-radius: 8px; border: 1px solid #00d0ff30;">
+                    <p style="margin-top: 10px; font-size: 14px; color: #c0c0c0;">Asia leads with the highest number of
+                        reported disasters.</p>
+                </div>
+
+                <!-- Card 3: Real-time Trends -->
+                <div
+                    style="background-color: #141b2b; padding: 24px; border-radius: 12px; box-shadow: 0 0 12px #0ff2ff40;">
+                    <h3 style="font-size: 18px; color: #00d0ff; margin-bottom: 12px;">Real-time Trends</h3>
+                    <img src="https://quickchart.io/chart?c={type:'line',data:{labels:['Jan','Feb','Mar','Apr','May'],datasets:[{label:'Disasters',data:[12,18,9,14,22]}]}}"
+                        alt="Line Graph" style="width: 100%; border-radius: 8px; border: 1px solid #00d0ff30;">
+                    <p style="margin-top: 10px; font-size: 14px; color: #c0c0c0;">Disaster reports peaked in May with
+                        increased flood activity.</p>
+                </div>
+            </div>
+
+            <!-- Button -->
+
+        </div>
+    </section>
+
+    <!-- Font Awesome CDN -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>DIAV</h2>
+                    <p>Disaster Information Aggregator & Verifier</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#tech">Tech Stack</a></li>
+                        <li><a href="#simulations">Simulations</a></li>
+                        <li><a href="#dashboard">Dashboard</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3>Contact</h3>
+                    <p>GitHub: <a href="#">@diav-project</a></p>
+                    <p>Email: contact@diav.org</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Disaster Information Aggregator & Verifier. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Add scroll-based animations
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top < window.innerHeight * 0.75) {
+                    section.classList.add('fade-in');
+                }
+            });
+        });
+
+        // Explore Models button scrolls to Simulations
+        document.getElementById('exploreModelsBtn').addEventListener('click', function () {
+            document.getElementById('simulations').scrollIntoView({ behavior: 'smooth' });
+        });
+    </script>
+</body>
+
+</html>

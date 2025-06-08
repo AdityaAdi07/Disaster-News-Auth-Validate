@@ -1,0 +1,6 @@
+event,title,source_url,newspaper,severity,city,state,gemini_raw_response
+flood,Thousands remain isolated as floods ease in eastern Australia,https://timesofindia.indiatimes.com/world/rest-of-world/thousands-remain-isolated-as-floods-ease-in-eastern-australia/articleshow/121375789.cms,Times of India,moderate,Kolkata,unknown,
+flood,Bengaluru: Parts of India's 'Silicon Valley' flooded after heavy rains,https://www.bbc.com/news/articles/c7800l27ynzo,BBC,severe,Bangalore,Karnataka,
+flood,Fact check: Did India trigger a flood in Pakistan?,https://www.dw.com/en/flooding-in-pakistan-water-conflict-indus-water-treaty-disinformation/a-72393131,DW,moderate,Mumbai,unknown,
+flood,"Monsoon floods kill dozens in India, thousands in relief camps",https://www.aljazeera.com/news/2024/9/2/monsoon-floods-kill-dozens-in-india-thousands-in-relief-camps,Al Jazeera,severe,Ahmedabad,unknown,
+flood,States told to take precautionary steps to mitigate impact of potential flood,https://www.newindianexpress.com/nation/2025/May/24/states-told-to-take-precautionary-steps-to-mitigate-impact-of-potential-flood,The New Indian Express,moderate,Delhi,unknown,

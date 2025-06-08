@@ -1,0 +1,2052 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disaster Intelligence - User Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        /* Update the root variables for cyberpunk theme */
+        :root {
+            --primary-color: #6200ea;
+            --primary-light: #9d46ff;
+            --primary-dark: #0a00b6;
+            --secondary-color: #00e5ff;
+            --secondary-light: #6effff;
+            --secondary-dark: #00b2cc;
+            --accent-color: #ff2a6d;
+            --accent-light: #ff5a8e;
+            --accent-dark: #d10045;
+            --cyber-green: #05ffa1;
+            --cyber-blue: #01c8ff;
+            --cyber-purple: #bc13fe;
+            --dark-bg: #0a0a1a;
+            --dark-surface: #12122a;
+            --dark-card: #1a1a36;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --text-disabled: rgba(255, 255, 255, 0.5);
+            --healthy-color: #05ffa1;
+            --infected-color: #ff2a6d;
+            --suspicious-color: #ffb700;
+            --glow-shadow: 0 0 10px rgba(0, 229, 255, 0.5), 0 0 20px rgba(0, 229, 255, 0.3);
+            --cyber-grid: repeating-linear-gradient(
+                90deg,
+                rgba(0, 229, 255, 0.07) 0px,
+                rgba(0, 229, 255, 0.07) 1px,
+                transparent 1px,
+                transparent 20px
+            ),
+            repeating-linear-gradient(
+                0deg,
+                rgba(0, 229, 255, 0.07) 0px,
+                rgba(0, 229, 255, 0.07) 1px,
+                transparent 1px,
+                transparent 20px
+            );
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Rajdhani', sans-serif;
+            background-color: var(--dark-bg);
+            background-image: var(--cyber-grid);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(10, 10, 26, 0.5) 0%, rgba(10, 10, 26, 0.95) 100%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-rows: auto 1fr;
+            min-height: 100vh;
+        }
+
+        /* Update top navigation */
+        .top-nav {
+            background: rgba(10, 10, 26, 0.85);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(1, 200, 255, 0.2);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--cyber-blue);
+            text-shadow: 0 0 5px rgba(1, 200, 255, 0.3);
+        }
+
+        .logo i {
+            font-size: 2rem;
+            color: var(--cyber-green);
+        }
+
+        .nav-icons {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .icon-badge {
+            position: relative;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all var(--transition-speed);
+        }
+
+        .icon-badge:hover {
+            background: rgba(74, 144, 226, 0.1);
+        }
+
+        .icon-badge i {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+        }
+
+        .badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--accent-color);
+            color: white;
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 10px;
+            min-width: 18px;
+            text-align: center;
+        }
+
+        /* Enhanced Main Container */
+        .main-container {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 2rem;
+            padding: 2rem;
+            width: 100%;
+            max-width: 1920px;
+            margin: 0 auto;
+            min-height: calc(100vh - 80px);
+        }
+
+        /* Enhanced Sidebar */
+        .sidebar {
+            background: var(--dark-surface);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            box-shadow: 0 0 30px rgba(1, 200, 255, 0.1);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+            width: 250px;
+            min-width: 250px;
+            border: 1px solid rgba(1, 200, 255, 0.1);
+        }
+
+        .nav-header {
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid rgba(0,0,0,0.1);
+        }
+
+        .nav-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .nav-links li {
+            position: relative;
+            padding: 0.75rem 1rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: all var(--transition-speed);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            border-left: 2px solid transparent;
+        }
+
+        .nav-links li:hover {
+            background: rgba(1, 200, 255, 0.1);
+            border-left: 2px solid var(--cyber-blue);
+        }
+
+        .nav-links li.active {
+            background: rgba(1, 200, 255, 0.15);
+            border-left: 2px solid var(--cyber-green);
+            color: var(--cyber-green);
+        }
+
+        .nav-links li i {
+            font-size: 1.25rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        .nav-indicator {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 0;
+            background: var(--primary-color);
+            border-radius: 0 4px 4px 0;
+            transition: height var(--transition-speed);
+        }
+
+        .nav-links li.active .nav-indicator {
+            height: 70%;
+        }
+
+        .nav-footer {
+            display: flex;
+            justify-content: space-around;
+            padding-top: 1.5rem;
+            border-top: 2px solid rgba(0,0,0,0.1);
+        }
+
+        .nav-btn {
+            background: none;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+            color: var(--text-secondary);
+        }
+
+        .nav-btn:hover {
+            background: rgba(74, 144, 226, 0.1);
+            color: var(--primary-color);
+        }
+
+        /* Enhanced Status Header */
+        .status-header {
+            background: var(--dark-surface);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 0 30px rgba(1, 200, 255, 0.1);
+            border: 1px solid rgba(1, 200, 255, 0.1);
+        }
+
+        .status-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--text-secondary);
+        }
+
+        .status-dot.active {
+            background: var(--cyber-green);
+            box-shadow: 0 0 10px var(--cyber-green);
+        }
+
+        .date-time {
+            text-align: right;
+        }
+
+        .date {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .time {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* Enhanced Section Styles */
+        .section {
+            background: var(--dark-surface);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: 0 0 30px rgba(1, 200, 255, 0.1);
+            margin-bottom: 2rem;
+            width: 100%;
+            border: 1px solid rgba(1, 200, 255, 0.1);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .section-title i {
+            font-size: 1.5rem;
+            color: var(--cyber-blue);
+        }
+
+        .section-title h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: var(--cyber-green);
+            text-shadow: 0 0 5px rgba(5, 255, 161, 0.3);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .main-container {
+                grid-template-columns: 250px 1fr;
+                padding: 2rem;
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+
+            .sidebar {
+                position: fixed;
+                left: -250px;
+                top: 0;
+                height: 100vh;
+                z-index: 1000;
+                transition: left var(--transition-speed);
+                width: 250px;
+                min-width: 250px;
+            }
+
+            .sidebar.active {
+                left: 0;
+            }
+
+            .top-nav {
+                padding: 1rem;
+            }
+
+            .logo span {
+                display: none;
+            }
+        }
+
+        /* Animation Classes */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide-in {
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-20px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Add these styles in the head section */
+        .location-results {
+            display: grid;
+            gap: 1.5rem;
+            padding: 1rem;
+        }
+
+        .section-card {
+            background: var(--dark-card);
+            border: 1px solid rgba(1, 200, 255, 0.1);
+            box-shadow: 0 0 30px rgba(1, 200, 255, 0.1);
+            padding: 1.5rem;
+            transition: transform 0.2s ease;
+        }
+
+        .section-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 40px rgba(1, 200, 255, 0.2);
+            border-color: var(--cyber-blue);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .section-header i {
+            font-size: 1.5rem;
+            color: #4a90e2;
+        }
+
+        .section-header h3 {
+            margin: 0;
+            font-size: 1.25rem;
+            color: #2c3e50;
+        }
+
+        .weather-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .info-item {
+            background: var(--dark-card);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .info-item i {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .info-item strong {
+            display: block;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .info-item p {
+            margin: 0;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .weather-history {
+            margin-top: 1.5rem;
+        }
+
+        .history-item {
+            background: var(--dark-card);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .history-date {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .history-metrics {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .metric {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        .metric i {
+            color: var(--primary-color);
+        }
+
+        .disaster-risk {
+            background: var(--dark-card);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .risk-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .risk-header i {
+            font-size: 2rem;
+            color: var(--danger-color);
+        }
+
+        .risk-header h3 {
+            margin: 0;
+            color: var(--text-primary);
+        }
+
+        .risk-score {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .score-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: var(--danger-color);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .score-value {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .score-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+
+        .risk-details {
+            background: rgba(231, 76, 60, 0.1);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+        }
+
+        .risk-details h4 {
+            margin: 0 0 1rem 0;
+            color: var(--danger-color);
+        }
+
+        .risk-details ul {
+            margin: 0;
+            padding-left: 1.5rem;
+        }
+
+        .risk-details li {
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .risk-recommendations {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .recommendations h4 {
+            margin: 0 0 0.75rem 0;
+            color: #2c3e50;
+        }
+
+        .recommendations ul {
+            margin: 0;
+            padding-left: 1.5rem;
+        }
+
+        .recommendations li {
+            margin-bottom: 0.5rem;
+            color: #6c757d;
+        }
+
+        @media (max-width: 768px) {
+            .weather-info {
+                grid-template-columns: 1fr;
+            }
+
+            .history-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .risk-score {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+        }
+
+        .relief-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .relief-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            height: 600px;
+        }
+
+        .relief-map {
+            background: #f8f9fa;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .relief-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            overflow-y: auto;
+            padding-right: 0.5rem;
+        }
+
+        .relief-filters {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 20px;
+            background: #f0f0f0;
+            color: #6c757d;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .filter-btn.active {
+            background: #4a90e2;
+            color: white;
+        }
+
+        .relief-results {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+            width: 100%;
+        }
+
+        .relief-card {
+            background: var(--dark-card);
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            width: 100%;
+            min-width: 300px;
+            border: 1px solid rgba(1, 200, 255, 0.1);
+        }
+
+        .relief-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 40px rgba(1, 200, 255, 0.2);
+            border-color: var(--cyber-blue);
+        }
+
+        .relief-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .relief-name {
+            margin: 0;
+            font-size: 1.25rem;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .relief-type {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: capitalize;
+            white-space: nowrap;
+            background: rgba(1, 200, 255, 0.1);
+            color: var(--cyber-blue);
+        }
+
+        .relief-details {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .relief-address {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            margin: 0;
+        }
+
+        .relief-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .relief-phone, .relief-maps {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .relief-phone {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .relief-maps {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .relief-phone:hover {
+            background: #bbdefb;
+        }
+
+        .relief-maps:hover {
+            background: #c8e6c9;
+        }
+
+        /* Type-specific colors */
+        .type-hospital { background: #e3f2fd; color: #1976d2; }
+        .type-fire_station { background: #ffebee; color: #c62828; }
+        .type-police_station { background: #e8f5e9; color: #2e7d32; }
+        .type-ngo { background: #fff3e0; color: #ef6c00; }
+        .type-medical_centre { background: #e8eaf6; color: #3f51b5; }
+
+        .loading-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            text-align: center;
+            color: #6c757d;
+        }
+
+        .loading-state i {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 2rem;
+            color: #6c757d;
+        }
+
+        .error-message {
+            text-align: center;
+            padding: 2rem;
+            color: #dc3545;
+            background: #f8d7da;
+            border-radius: 8px;
+        }
+
+        /* Add styles for empty feed state */
+        .empty-feed {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        .empty-feed i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            opacity: 0.5;
+        }
+
+        .empty-feed h3 {
+            margin: 0 0 0.5rem 0;
+            color: var(--text-primary);
+        }
+
+        .empty-feed p {
+            margin: 0;
+            font-size: 1.1rem;
+        }
+
+        /* Add styles for summary section */
+        .risk-summary {
+            background: var(--dark-card);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .summary-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .summary-header i {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .summary-header h3 {
+            margin: 0;
+            color: var(--text-primary);
+        }
+
+        .summary-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .summary-card {
+            background: rgba(74, 144, 226, 0.05);
+            border-radius: var(--border-radius);
+            padding: 1.25rem;
+        }
+
+        .summary-card h4 {
+            margin: 0 0 1rem 0;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .summary-card h4 i {
+            font-size: 1.1rem;
+        }
+
+        .summary-card ul {
+            margin: 0;
+            padding-left: 1.5rem;
+        }
+
+        .summary-card li {
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        .precautions-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .precaution-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: rgba(74, 144, 226, 0.1);
+            border-radius: 8px;
+        }
+
+        .precaution-item i {
+            color: var(--primary-color);
+            margin-top: 0.25rem;
+        }
+
+        .precaution-item span {
+            font-size: 0.9rem;
+            color: var(--text-primary);
+        }
+
+        /* Add these styles in the head section */
+        .event-details-container {
+            background: var(--dark-card);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-top: 2rem;
+        }
+
+        .event-details-header {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid rgba(0,0,0,0.1);
+        }
+
+        .event-details-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 10px rgba(74, 144, 226, 0.3);
+        }
+
+        .event-details-title {
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .event-details-description {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        .event-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .event-info-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .event-info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        .event-info-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .event-info-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(74, 144, 226, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            font-size: 1.25rem;
+        }
+
+        .event-info-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .event-info-content {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .event-info-list {
+            list-style: none;
+            padding: 0;
+            margin: 1rem 0 0 0;
+        }
+
+        .event-info-list li {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .event-info-list li:last-child {
+            border-bottom: none;
+        }
+
+        .event-info-list i {
+            color: var(--primary-color);
+            font-size: 1.1rem;
+        }
+
+        .event-risk-level {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+
+        .risk-high {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .risk-medium {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .risk-low {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        /* Update button styles for better contrast */
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--cyber-blue), var(--cyber-purple));
+            color: var(--text-primary);
+            box-shadow: 0 0 15px rgba(1, 200, 255, 0.5);
+            border: 1px solid var(--cyber-blue);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 20px rgba(1, 200, 255, 0.7), 0 0 40px rgba(1, 200, 255, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--text-secondary);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: var(--text-primary);
+            transform: translateY(-1px);
+        }
+
+        .btn-danger {
+            background: var(--danger-color);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #b91c1c;
+            transform: translateY(-1px);
+        }
+
+        /* Update card styles for light theme */
+        .section-card {
+            background: var(--dark-card);
+            border: 1px solid rgba(1, 200, 255, 0.1);
+            box-shadow: 0 0 30px rgba(1, 200, 255, 0.1);
+        }
+
+        /* Update navigation styles */
+        .nav-links li {
+            color: var(--text-secondary);
+            border-left: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links li:hover {
+            background: rgba(1, 200, 255, 0.1);
+            border-left: 2px solid var(--cyber-blue);
+        }
+
+        .nav-links li.active {
+            background: rgba(1, 200, 255, 0.15);
+            border-left: 2px solid var(--cyber-green);
+            color: var(--cyber-green);
+        }
+
+        /* Add styles for info tabs */
+        .info-tabs {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: var(--dark-card);
+            border-radius: var(--border-radius);
+            border: 1px solid #e2e8f0;
+        }
+
+        .info-tab {
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            border-radius: 8px;
+            background: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            transition: all 0.2s ease;
+        }
+
+        .info-tab:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .info-tab-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-tab-header i {
+            color: var(--primary-color);
+            font-size: 1.1rem;
+        }
+
+        .info-tab-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .info-tab-value {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .info-tab-description {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+        }
+
+        /* Add cyber effects */
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(1, 200, 255, 0.03) 25%, transparent 25%, transparent 75%, rgba(1, 200, 255, 0.03) 75%);
+            background-size: 20px 20px;
+            pointer-events: none;
+        }
+
+        /* Add scan line effect */
+        .scan-line {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scan-line::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--cyber-blue);
+            opacity: 0.5;
+            animation: scanLineMove 3s linear infinite;
+        }
+
+        @keyframes scanLineMove {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(2000%); }
+        }
+
+        /* Add glow effects */
+        .glow-text {
+            text-shadow: 0 0 5px var(--cyber-blue), 0 0 10px var(--cyber-blue);
+        }
+
+        .glow-border {
+            box-shadow: 0 0 10px var(--cyber-blue), 0 0 20px var(--cyber-blue);
+        }
+
+        /* Add pulse animation */
+        @keyframes pulse {
+            0% { opacity: 0.5; }
+            50% { opacity: 1; }
+            100% { opacity: 0.5; }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Top Navigation Bar -->
+        <header class="top-nav">
+            <div class="logo">
+                <i class="fas fa-shield-alt"></i>
+                <span>DISASTER INTELLIGENCE- USER DASHBOARD</span>
+            </div>
+            <div class="nav-icons">
+                <div class="icon-badge" data-tooltip="Notifications">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge">3</span>
+                </div>
+                <div class="icon-badge" data-tooltip="Messages">
+                    <i class="fas fa-envelope"></i>
+                    <span class="badge">2</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="main-container">
+            <!-- Side Navigation -->
+            <nav class="sidebar">
+                <div class="nav-header">
+                    <div class="logo">
+                        
+                        <span>DIAV</span>
+                    </div>
+                </div>
+                <ul class="nav-links">
+                    <li class="active" data-section="latest-feed">
+                        <i class="fas fa-newspaper"></i>
+                        <span>Latest Feed</span>
+                        <div class="nav-indicator"></div>
+                    </li>
+                    <li data-section="event-details">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Event Details</span>
+                        <div class="nav-indicator"></div>
+                    </li>
+                    <li data-section="search">
+                        <i class="fas fa-search"></i>
+                        <span>Search</span>
+                        <div class="nav-indicator"></div>
+                    </li>
+                    <li data-section="relief">
+                        <i class="fas fa-hands-helping"></i>
+                        <span>Nearest Relief</span>
+                        <div class="nav-indicator"></div>
+                    </li>
+                    <li data-section="my-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>My Location & Alerts</span>
+                        <div class="nav-indicator"></div>
+                    </li>
+                    
+                    
+                    
+                </ul>
+                <div class="nav-footer">
+                    <button class="nav-btn" data-tooltip="Help">
+                        <i class="fas fa-question-circle"></i>
+                    </button>
+                    <button class="nav-btn" data-tooltip="Feedback">
+                        <i class="fas fa-comment-alt"></i>
+                    </button>
+                </div>
+                <!-- Add info tabs to the sidebar after nav-links -->
+                
+            </nav>
+
+            <!-- Main Content Area -->
+            <main class="content">
+                <!-- Status Header -->
+                
+                <div class="status-header">
+                    <div class="status-info">
+                        <h2>System Status</h2>
+                        <div class="status-indicator">
+                            <span class="status-dot active"></span>
+                            <span class="status-text">All Systems Operational</span>
+                        </div>
+                    </div>
+                    <div class="date-time">
+                        <div class="date" id="current-date"></div>
+                        <div class="time" id="current-time"></div>
+                    </div>
+                </div>
+
+                <!-- Latest Feed Section -->
+                <section id="latest-feed" class="section active">
+                    <div class="section-header">
+                        <div class="section-title">
+                            <i class="fas fa-newspaper"></i>
+                            <h2>Latest Feed</h2>
+                        </div>
+                        <div class="section-actions">
+                            <button id="loadFeed" class="btn btn-primary">
+                                <i class="fas fa-sync"></i> Load Feed
+                            </button>
+                        </div>
+                    </div>
+                    <div class="feed-container">
+                        <div class="feed-content">
+                            <div id="feedList" class="feed-list">
+                                <div class="empty-feed">
+                                    <i class="fas fa-newspaper"></i>
+                                    <h3>No Feed Data Available</h3>
+                                    <p>Click the "Load Feed" button to see the latest updates</p>
+                                </div>
+                            </div>
+                            <div id="feedMap" class="feed-map">
+                                <!-- Map will be initialized here -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Event Details Section -->
+                <section id="event-details" class="section">
+                    <div class="section-header">
+                        <div class="section-title">
+                            <i class="fas fa-calendar-alt"></i>
+                            <h2>Event Details</h2>
+                        </div>
+                    </div>
+                    <div class="form-container">
+                        <form id="eventForm" class="enhanced-form">
+                            <div class="form-group">
+                                <label for="eventType">
+                                    <i class="fas fa-tag"></i>
+                                    Select Event Type to Get Details
+                                </label>
+                                <select id="eventType" required>
+                                    <option value="">-- Select Event Type --</option>
+                                    <option value="flood">Flood</option>
+                                    <option value="earthquake">Earthquake</option>
+                                    <option value="cyclone">Cyclone</option>
+                                    <option value="landslide">Landslide</option>
+                                    <option value="drought">Drought</option>
+                                    <option value="fire">Fire</option>
+                                    <option value="storm">Storm</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-paper-plane"></i> Get Details
+                            </button>
+                        </form>
+                        <div id="eventOutput" class="output-container">
+                            <div class="event-details-container">
+                                <div class="event-details-header">
+                                    <div class="event-details-icon">
+                                        <i class="fas fa-info-circle"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="event-details-title">Select an Event Type to View Details</h3>
+                                        <p class="event-details-description">Choose an event type from the dropdown and click "Get Details" to see specific information and recommendations related to that type of disaster.</p>
+                                    </div>
+                                </div>
+                                <div class="event-info-grid">
+                                    <div class="event-info-card">
+                                        <div class="event-info-header">
+                                            <div class="event-info-icon">
+                                                <i class="fas fa-exclamation-triangle"></i>
+                                            </div>
+                                            <h4 class="event-info-title">Risk Assessment</h4>
+                                        </div>
+                                        <div class="event-info-content">
+                                            <p>Select an event type to view detailed risk assessment and analysis.</p>
+                                            <div class="event-risk-level risk-medium">Risk Level: Pending</div>
+                                        </div>
+                                    </div>
+                                    <div class="event-info-card">
+                                        <div class="event-info-header">
+                                            <div class="event-info-icon">
+                                                <i class="fas fa-shield-alt"></i>
+                                            </div>
+                                            <h4 class="event-info-title">Safety Measures</h4>
+                                        </div>
+                                        <div class="event-info-content">
+                                            <p>View recommended safety measures and precautions for the selected event type.</p>
+                                        </div>
+                                    </div>
+                                    <div class="event-info-card">
+                                        <div class="event-info-header">
+                                            <div class="event-info-icon">
+                                                <i class="fas fa-phone-alt"></i>
+                                            </div>
+                                            <h4 class="event-info-title">Emergency Contacts</h4>
+                                        </div>
+                                        <div class="event-info-content">
+                                            <ul class="event-info-list">
+                                                <li><i class="fas fa-phone"></i> Emergency Services: 112</li>
+                                                <li><i class="fas fa-ambulance"></i> Ambulance: 108</li>
+                                                <li><i class="fas fa-fire-extinguisher"></i> Fire Department: 101</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Search Section -->
+                <section id="search" class="section">
+                    <div class="section-header">
+                        <div class="section-title">
+                            <i class="fas fa-search"></i>
+                            <h2>Search</h2>
+                        </div>
+                    </div>
+                    <div class="search-container">
+                        <form id="searchForm" class="enhanced-form">
+                            <div class="search-group">
+                                <div class="search-input-wrapper">
+                                    <i class="fas fa-search search-icon"></i>
+                                    <input type="text" id="searchQuery" placeholder="Search for events, locations, or keywords..." required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-search"></i> Search
+                                </button>
+                            </div>
+                        </form>
+                        <div id="searchOutput" class="output-container">
+                            <div class="search-results">
+                                <!-- Example Search Card (populated by JS) -->
+                                <!-- The JS will generate cards here based on search results -->
+
+                            </div>
+
+                            <!-- Loading State (hidden by default) -->
+                            <div class="search-loading" style="display: none;">
+                                <i class="fas fa-spinner"></i>
+                            </div>
+
+                            <!-- No Results State (hidden by default) -->
+                            <div class="no-results" style="display: none;">
+                                <i class="fas fa-search"></i>
+                                <p>No results found for "<span id='noResultsQuery'></span>"</p>
+                                <p>Try different keywords or check your spelling</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Nearest Relief Section -->
+                <section id="relief" class="section">
+                    <div class="section-header">
+                        <div class="section-title">
+                            <i class="fas fa-hands-helping"></i>
+                            <h2>Nearest Relief Centers</h2>
+                        </div>
+                    </div>
+                    <div class="relief-container">
+                        <div class="section-card">
+                            <h2>Nearest Relief Centers</h2>
+                            <div class="search-container">
+                                <select id="reliefCity" onchange="loadReliefCenters()">
+                                    <option value="">Select a city</option>
+                                    <option value="bengaluru">Bengaluru</option>
+                                    <option value="delhi">Delhi</option>
+                                    <option value="chennai">Chennai</option>
+                                    <option value="mumbai">Mumbai</option>
+                                    <option value="hyderabad">Hyderabad</option>
+                                </select>
+                            </div>
+                            <div id="reliefResults" class="relief-results">
+                                <!-- Results will be displayed here -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- My Location Section -->
+                <section id="my-location" class="section">
+                    <div class="section-header">
+                        <div class="section-title">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <h2>My Location</h2>
+                        </div>
+                        <div class="section-actions">
+                            <button id="checkLocation" class="btn btn-primary">
+                                <i class="fas fa-sync"></i> Check Location
+                            </button>
+                        </div>
+                            </div>
+                    <div class="location-container">
+                        <div id="locationLoading" class="loading-state" style="display: none;">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            <p>Analyzing location data...</p>
+                                </div>
+                        <div id="locationResults" class="location-results" style="display: none;">
+                            <div class="weather-info">
+                                <div class="info-item">
+                                    <i class="fas fa-temperature-high"></i>
+                                    <div>
+                                        <strong>Temperature</strong>
+                                        <p id="temperature">--°C</p>
+                                </div>
+                                </div>
+                                <div class="info-item">
+                                    <i class="fas fa-cloud-rain"></i>
+                                    <div>
+                                        <strong>Precipitation</strong>
+                                        <p id="precipitation">-- mm</p>
+                                    </div>
+                                </div>
+                                <div class="info-item">
+                                    <i class="fas fa-wind"></i>
+                                    <div>
+                                        <strong>Wind Speed</strong>
+                                        <p id="windSpeed">-- km/h</p>
+                                    </div>
+                                </div>
+                                <div class="info-item">
+                                    <i class="fas fa-tint"></i>
+                                    <div>
+                                        <strong>Humidity</strong>
+                                        <p id="humidity">--%</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="disasterRisk" class="disaster-risk">
+                                <div class="risk-header">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    <h3>Disaster Risk Assessment</h3>
+                                </div>
+                                <div class="risk-score">
+                                    <div class="score-circle">
+                                        <div class="score-value" id="riskScore">--</div>
+                                        <div class="score-label">Risk Score</div>
+                                    </div>
+                                    <div class="risk-details">
+                                        <h4>Predicted Disaster Type: <span id="disasterType">--</span></h4>
+                                    </div>
+                                </div>
+                                <div class="risk-summary">
+                                    <div class="summary-header">
+                                        <i class="fas fa-chart-line"></i>
+                                        <h3>Risk Analysis Summary</h3>
+                                    </div>
+                                    <div class="summary-content">
+                                        <div class="summary-card">
+                                            <h4><i class="fas fa-chart-bar"></i> Analysis</h4>
+                                            <ul id="analysisList">
+                                                <!-- Analysis points will be populated here -->
+                                            </ul>
+                                        </div>
+                                        <div class="summary-card">
+                                            <h4><i class="fas fa-shield-alt"></i> Precautions</h4>
+                                            <div class="precautions-list" id="precautionsList">
+                                                <!-- Precautions will be populated here -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="weather-history">
+                                <h3>Past Week Weather</h3>
+                                <div id="weatherHistory">
+                                    <!-- Weather history will be populated here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Alerts Section -->
+                <section id="alerts" class="section">
+                    <div class="section-header">
+                        <div class="section-title">
+                            <i class="fas fa-bell"></i>
+                            <h2>Alerts & Notifications</h2>
+                        </div>
+                    </div>
+                    <div class="alerts-container">
+                        <!-- Alerts content will be added here -->
+                    </div>
+                </section>
+
+                <!-- Resources Section -->
+                <section id="resources" class="section">
+                    <div class="section-header">
+                        <div class="section-title">
+                            <i class="fas fa-book"></i>
+                            <h2>Emergency Resources</h2>
+                        </div>
+                    </div>
+                    <div class="resources-container">
+                        <!-- Resources content will be added here -->
+                    </div>
+                </section>
+
+                <!-- Community Section -->
+                <section id="community" class="section">
+                    <div class="section-header">
+                        <div class="section-title">
+                            <i class="fas fa-users"></i>
+                            <h2>Community Support</h2>
+                        </div>
+                    </div>
+                    <div class="community-container">
+                        <!-- Community content will be added here -->
+                    </div>
+                </section>
+
+                <!-- Reports Section -->
+                <section id="reports" class="section">
+                    <div class="section-header">
+                        <div class="section-title">
+                            <i class="fas fa-chart-bar"></i>
+                            <h2>Analytics & Reports</h2>
+                        </div>
+                    </div>
+                    <div class="reports-container">
+                        <!-- Reports content will be added here -->
+                    </div>
+                </section>
+
+                <!-- Settings Section -->
+                <section id="settings" class="section">
+                    <div class="section-header">
+                        <div class="section-title">
+                            <i class="fas fa-cog"></i>
+                            <h2>Settings</h2>
+                        </div>
+                    </div>
+                    <div class="settings-container">
+                        <!-- Settings content will be added here -->
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Function to update date and time
+        function updateDateTime() {
+            const now = new Date();
+            
+            // Format date: Day, Month Date, Year
+            const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const dateStr = now.toLocaleDateString('en-US', dateOptions);
+            
+            // Format time: HH:MM:SS AM/PM
+            const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
+            const timeStr = now.toLocaleTimeString('en-US', timeOptions);
+            
+            // Update the DOM elements
+            document.getElementById('current-date').textContent = dateStr;
+            document.getElementById('current-time').textContent = timeStr;
+        }
+
+        // Update immediately and then every second
+        updateDateTime();
+        setInterval(updateDateTime, 1000);
+
+        // Twilio credentials
+        const TWILIO_ACCOUNT_SID = 'ACa4ed31e1c99f5a8cc61480f1fc1f5dd7';
+        const TWILIO_AUTH_TOKEN = '9bfb345092fed70f3e0a0e00934c1ef9';
+        const TWILIO_PHONE_NUMBER = '+12187576590'; // Actual Twilio phone number
+        const RECIPIENT_PHONE = '+919380071707'; // Recipient phone number
+
+        // Function to send SMS using Twilio
+        async function sendSMS(message) {
+            try {
+                // Log the attempt
+                console.log('Attempting to send SMS to:', RECIPIENT_PHONE);
+                console.log('From Twilio number:', TWILIO_PHONE_NUMBER);
+
+                // Create the request body
+                const body = new URLSearchParams({
+                    'To': RECIPIENT_PHONE,
+                    'From': TWILIO_PHONE_NUMBER,
+                    'Body': message
+                });
+
+                // Send the request
+                const response = await fetch('https://api.twilio.com/2010-04-01/Accounts/' + TWILIO_ACCOUNT_SID + '/Messages.json', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Basic ' + btoa(TWILIO_ACCOUNT_SID + ':' + TWILIO_AUTH_TOKEN),
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'Accept': 'application/json'
+                    },
+                    body: body
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    console.error('Twilio API Error:', errorData);
+                    throw new Error(errorData.message || 'Failed to send SMS');
+                }
+
+                const data = await response.json();
+                console.log('SMS sent successfully:', data);
+                
+                // Check message status
+                if (data.status === 'queued' || data.status === 'sent') {
+                    console.log('Message status:', data.status);
+                    console.log('Message SID:', data.sid);
+                    
+                    // Check message status after a delay
+                    setTimeout(async () => {
+                        try {
+                            const statusResponse = await fetch(`https://api.twilio.com/2010-04-01/Accounts/${TWILIO_ACCOUNT_SID}/Messages/${data.sid}.json`, {
+                                headers: {
+                                    'Authorization': 'Basic ' + btoa(TWILIO_ACCOUNT_SID + ':' + TWILIO_AUTH_TOKEN),
+                                    'Accept': 'application/json'
+                                }
+                            });
+                            const statusData = await statusResponse.json();
+                            console.log('Message status after delay:', statusData.status);
+                            console.log('Error code:', statusData.error_code);
+                            console.log('Error message:', statusData.error_message);
+                        } catch (statusError) {
+                            console.error('Error checking message status:', statusError);
+                        }
+                    }, 5000); // Check after 5 seconds
+                }
+
+                return data;
+            } catch (error) {
+                console.error('Error details:', error);
+                throw error;
+            }
+        }
+
+        document.getElementById('checkLocation').addEventListener('click', async function() {
+            const loadingDiv = document.getElementById('locationLoading');
+            const resultsDiv = document.getElementById('locationResults');
+            
+            loadingDiv.style.display = 'flex';
+            resultsDiv.style.display = 'none';
+
+            try {
+                // Simulate API call with the provided data
+                const weatherData = {
+                    current: {
+                        temperature: 25.0,
+                        precipitation: 0.16,
+                        windspeed_kph: 6.5,
+                        humidity: 88
+                    },
+                    history: [
+                        {
+                            date: '2025-05-25',
+                            avg_temp_c: 26.3,
+                            max_temp_c: 27.8,
+                            min_temp_c: 25.2,
+                            total_precip_mm: 4.47,
+                            max_wind_kph: 8.3,
+                            avg_humidity: 80
+                        }
+                    ],
+                    disaster: {
+                        type: 'Flood',
+                        risk_score: 0.57,
+                        analysis: [
+                            "Recent heavy rainfall (18.2mm and 20.9mm) has saturated the ground",
+                            "High humidity (88%) indicates air saturation",
+                            "Warm temperatures may lead to intense rainfall",
+                            "Risk score of 0.57 indicates elevated flood risk"
+                        ],
+                        precautions: [
+                            "Monitor weather updates and alerts",
+                            "Clear drainage systems",
+                            "Secure property and move valuables",
+                            "Prepare emergency kit",
+                            "Plan evacuation route",
+                            "Stay informed about local conditions"
+                        ]
+                    }
+                };
+
+                // Update UI with weather data
+                document.getElementById('temperature').textContent = `${weatherData.current.temperature}°C`;
+                document.getElementById('precipitation').textContent = `${weatherData.current.precipitation} mm`;
+                document.getElementById('windSpeed').textContent = `${weatherData.current.windspeed_kph} km/h`;
+                document.getElementById('humidity').textContent = `${weatherData.current.humidity}%`;
+
+                // Update disaster risk
+                document.getElementById('disasterType').textContent = weatherData.disaster.type;
+                document.getElementById('riskScore').textContent = (weatherData.disaster.risk_score * 100).toFixed(0);
+
+                // Update analysis
+                const analysisList = document.getElementById('analysisList');
+                analysisList.innerHTML = weatherData.disaster.analysis.map(point => 
+                    `<li>${point}</li>`
+                ).join('');
+
+                // Update precautions
+                const precautionsList = document.getElementById('precautionsList');
+                precautionsList.innerHTML = weatherData.disaster.precautions.map(precaution => `
+                    <div class="precaution-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>${precaution}</span>
+                    </div>
+                `).join('');
+
+                // Update weather history
+                const historyContainer = document.getElementById('weatherHistory');
+                historyContainer.innerHTML = weatherData.history.map(day => `
+                    <div class="history-item">
+                        <div class="history-date">${day.date}</div>
+                        <div class="history-metrics">
+                            <div class="metric">
+                                <i class="fas fa-temperature-high"></i>
+                                ${day.avg_temp_c}°C
+                            </div>
+                            <div class="metric">
+                                <i class="fas fa-cloud-rain"></i>
+                                ${day.total_precip_mm}mm
+                            </div>
+                            <div class="metric">
+                                <i class="fas fa-wind"></i>
+                                ${day.max_wind_kph}km/h
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+
+                // Send SMS using Twilio
+                try {
+                    // Format the SMS message with simpler format
+                    const smsMessage = `DISASTER ALERT
+Type: ${weatherData.disaster.type}
+Risk Score: ${(weatherData.disaster.risk_score * 100).toFixed(0)}%
+
+Weather:
+Temp: ${weatherData.current.temperature}C
+Precip: ${weatherData.current.precipitation}mm
+Wind: ${weatherData.current.windspeed_kph}km/h
+Humidity: ${weatherData.current.humidity}%
+
+Analysis:
+${weatherData.disaster.analysis.slice(0, 2).join('\n')}
+
+Precautions:
+${weatherData.disaster.precautions.slice(0, 3).join('\n')}
+
+Stay safe and follow local authorities' instructions.`.trim();
+
+                    // Send the SMS
+                    const smsResult = await sendSMS(smsMessage);
+                    
+                    // Show success message with more details
+                    const successMessage = document.createElement('div');
+                    successMessage.className = 'alert alert-success';
+                    successMessage.innerHTML = `
+                        <i class="fas fa-check-circle"></i>
+                        <div class="alert-content">
+                            <strong>Alert Sent!</strong>
+                            <p>Location analysis and risk assessment have been sent via SMS.</p>
+                            <p>Message SID: ${smsResult.sid}</p>
+                            <p>Status: ${smsResult.status}</p>
+                            <p>Check console for detailed status updates.</p>
+                        </div>
+                    `;
+                    document.querySelector('.location-container').insertBefore(
+                        successMessage,
+                        document.getElementById('locationResults')
+                    );
+
+                    // Remove success message after 5 seconds
+                    setTimeout(() => {
+                        successMessage.remove();
+                    }, 5000);
+
+                } catch (smsError) {
+                    console.error('Error sending SMS:', smsError);
+                    const errorMessage = document.createElement('div');
+                    errorMessage.className = 'alert alert-danger';
+                    errorMessage.innerHTML = `
+                        <i class="fas fa-exclamation-circle"></i>
+                        <div class="alert-content">
+                            <strong>SMS Error</strong>
+                            <p>Failed to send SMS alert: ${smsError.message}</p>
+                            <p>Please check your Twilio account settings and phone number verification.</p>
+                        </div>
+                    `;
+                    document.querySelector('.location-container').insertBefore(
+                        errorMessage,
+                        document.getElementById('locationResults')
+                    );
+
+                    // Remove error message after 5 seconds
+                    setTimeout(() => {
+                        errorMessage.remove();
+                    }, 5000);
+                }
+
+                // Show results
+                loadingDiv.style.display = 'none';
+                resultsDiv.style.display = 'block';
+            } catch (error) {
+                console.error('Error fetching location data:', error);
+                loadingDiv.style.display = 'none';
+                alert('Error fetching location data. Please try again.');
+            }
+        });
+
+        // Add this function to load relief centers from JSON files
+        async function loadReliefCenters() {
+            const citySelect = document.getElementById('reliefCity');
+            const resultsContainer = document.getElementById('reliefResults');
+            const selectedCity = citySelect.value;
+
+            if (!selectedCity) {
+                resultsContainer.innerHTML = `
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i>
+                        <strong>Please select a city</strong>
+                        <p>Choose a city from the dropdown to view relief centers.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Show loading state
+            resultsContainer.innerHTML = `
+                <div class="loading-state">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Loading relief centers for ${selectedCity}...</p>
+                </div>
+            `;
+
+            try {
+                // Fetch the JSON file for the selected city
+                const response = await fetch(`user/${selectedCity}.json`);
+                if (!response.ok) {
+                    throw new Error(`Failed to load data for ${selectedCity}`);
+                }
+
+                const centers = await response.json();
+                
+                if (!Array.isArray(centers) || centers.length === 0) {
+                    resultsContainer.innerHTML = `
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle"></i>
+                            <strong>No relief centers found</strong>
+                            <p>No relief centers are currently listed for ${selectedCity}.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                // Display all relief centers
+                resultsContainer.innerHTML = centers.map(center => `
+                    <div class="relief-card">
+                        <div class="relief-header">
+                            <h3 class="relief-name">${center.name}</h3>
+                            <span class="relief-type type-${center.type.toLowerCase().replace(' ', '_')}">${center.type}</span>
+                        </div>
+                        <div class="relief-details">
+                            ${center.image_url ? `
+                                <div class="relief-image">
+                                    <img src="${center.image_url}" alt="${center.name}" style="width: 100%; border-radius: 8px; margin-bottom: 1rem;">
+                                </div>
+                            ` : ''}
+                            <p class="relief-address">
+                                <i class="fas fa-map-marker-alt"></i>
+                                ${center.address}
+                            </p>
+                            <div class="relief-actions">
+                                <a href="tel:${center.phone}" class="relief-phone">
+                                    <i class="fas fa-phone"></i>
+                                    ${center.phone}
+                                </a>
+                                <a href="${center.maps_url}" target="_blank" class="relief-maps">
+                                    <i class="fas fa-map"></i>
+                                    View on Map
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading relief centers:', error);
+                resultsContainer.innerHTML = `
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <strong>Error:</strong> ${error.message}
+                    </div>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Login - Disaster Intelligence</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="login-box">
+            <div class="login-content">
+                <div class="logo-container">
+                    <i class="fas fa-shield-alt"></i>
+                    <h1>User Login</h1>
+                </div>
+
+                <!-- Initial Options -->
+                <div class="login-options" id="loginOptions">
+                    <button class="btn" onclick="showEmailLogin()">
+                        <i class="fas fa-envelope"></i>
+                        Continue with Email
+                    </button>
+                    <button class="btn" onclick="showGithubLogin()">
+                        <i class="fab fa-github"></i>
+                        Continue with GitHub
+                    </button>
+                    <button class="btn" onclick="showManualLogin()">
+                        <i class="fas fa-user"></i>
+                        Manual Login
+                    </button>
+                </div>
+
+                <!-- Email Login Form -->
+                <div class="login-form" id="emailLogin" style="display: none;">
+                    <div class="input-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="email" placeholder="Enter your email" required>
+                    </div>
+                    <button class="btn" onclick="handleEmailLogin()">
+                        <i class="fas fa-paper-plane"></i>
+                        Send Login Link
+                    </button>
+                </div>
+
+                <!-- GitHub Login Form -->
+                <div class="login-form" id="githubLogin" style="display: none;">
+                    <div class="input-group">
+                        <i class="fab fa-github"></i>
+                        <input type="text" id="githubUsername" placeholder="Enter GitHub username" required>
+                    </div>
+                    <button class="btn" onclick="handleGithubLogin()">
+                        <i class="fab fa-github"></i>
+                        Connect GitHub
+                    </button>
+                </div>
+
+                <!-- Manual Login Form -->
+                <div class="login-form" id="manualLogin" style="display: none;">
+                    <div class="input-group">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="username" placeholder="Username" required>
+                    </div>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="password" placeholder="Password" required>
+                    </div>
+                    <button class="btn" onclick="handleManualLogin()">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Login
+                    </button>
+                </div>
+
+                <a href="index.html" class="back-link">Back to Home</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Show/Hide Forms
+        function showEmailLogin() {
+            document.getElementById('loginOptions').style.display = 'none';
+            document.getElementById('emailLogin').style.display = 'block';
+        }
+
+        function showGithubLogin() {
+            document.getElementById('loginOptions').style.display = 'none';
+            document.getElementById('githubLogin').style.display = 'block';
+        }
+
+        function showManualLogin() {
+            document.getElementById('loginOptions').style.display = 'none';
+            document.getElementById('manualLogin').style.display = 'block';
+        }
+
+        // Handle Login Methods
+        function handleEmailLogin() {
+            const email = document.getElementById('email').value;
+            if (!email) {
+                alert('Please enter your email');
+                return;
+            }
+            
+            // Simulate sending login link
+            const btn = document.querySelector('#emailLogin .btn');
+            btn.classList.add('loading');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            
+            setTimeout(() => {
+                alert('Login link sent to ' + email);
+                window.location.href = '../landing-page/index.html';
+            }, 2000);
+        }
+
+        function handleGithubLogin() {
+            const username = document.getElementById('githubUsername').value;
+            if (!username) {
+                alert('Please enter your GitHub username');
+                return;
+            }
+
+            // Simulate GitHub authentication
+            const btn = document.querySelector('#githubLogin .btn');
+            btn.classList.add('loading');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Connecting...';
+            
+            setTimeout(() => {
+                alert('Successfully connected with GitHub');
+                window.location.href = '../landing-page/index.html';
+            }, 2000);
+        }
+
+        function handleManualLogin() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            if (!username || !password) {
+                alert('Please enter both username and password');
+                return;
+            }
+
+            // Simulate manual login
+            const btn = document.querySelector('#manualLogin .btn');
+            btn.classList.add('loading');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
+            
+            setTimeout(() => {
+                alert('Successfully logged in as ' + username);
+                window.location.href = '../landing-page/index.html';
+            }, 2000);
+        }
+    </script>
+</body>
+</html> 

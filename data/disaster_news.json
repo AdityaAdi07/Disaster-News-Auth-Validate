@@ -1,0 +1,23 @@
+[
+    {
+        "title": "Heavy rains cause flooding in Mumbai",
+        "link": "https://example.com/news/1",
+        "published": "2024-03-20T10:00:00Z",
+        "source": "Times of India",
+        "location": "Mumbai"
+    },
+    {
+        "title": "Earthquake hits Delhi-NCR region",
+        "link": "https://example.com/news/2",
+        "published": "2024-03-20T09:30:00Z",
+        "source": "NDTV",
+        "location": "Delhi"
+    },
+    {
+        "title": "Cyclone warning issued for coastal areas",
+        "link": "https://example.com/news/3",
+        "published": "2024-03-20T08:45:00Z",
+        "source": "The Hindu",
+        "location": "Chennai"
+    }
+] 

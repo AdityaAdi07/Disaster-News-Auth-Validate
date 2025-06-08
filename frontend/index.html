@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indian Disaster Intelligence Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/enhanced-styles.css">
+</head>
+<body>
+    <!-- Enhanced Navigation -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <i class="fas fa-shield-alt me-2"></i>
+                <span>Disaster Intelligence</span>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#dashboard">
+                            <i class="fas fa-chart-line me-1"></i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#analytics-section">
+                            <i class="fas fa-chart-pie me-1"></i>
+                            Analytics
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#social-media">
+                            <i class="fas fa-hashtag me-1"></i>
+                            Social Media
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="admin.html">
+                            <i class="fas fa-user-shield me-1"></i>
+                            Admin Control
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="nav-right d-flex align-items-center">
+                    <div class="nav-item dropdown me-3">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-bell"></i>
+                            <span class="notification-badge">3</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end notification-dropdown">
+                            <h6 class="dropdown-header">Notifications</h6>
+                            <a class="dropdown-item" href="#">
+                                <div class="notification-item">
+                                    <i class="fas fa-exclamation-triangle text-warning"></i>
+                                    <div class="notification-content">
+                                        <p>New flood alert in Mumbai</p>
+                                        <small>2 minutes ago</small>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="dropdown-item" href="#">
+                                <div class="notification-item">
+                                    <i class="fas fa-fire text-danger"></i>
+                                    <div class="notification-content">
+                                        <p>Forest fire reported in Uttarakhand</p>
+                                        <small>15 minutes ago</small>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-center" href="#">View all notifications</a>
+                        </div>
+                    </div>
+
+                    <div class="nav-item dropdown me-3">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-cog"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end settings-dropdown">
+                            <h6 class="dropdown-header">Settings</h6>
+                            <a class="dropdown-item" href="#">
+                                <i class="fas fa-user me-2"></i>Profile Settings
+                            </a>
+                            <a class="dropdown-item" href="#">
+                                <i class="fas fa-bell me-2"></i>Notification Preferences
+                            </a>
+                            <a class="dropdown-item" href="#">
+                                <i class="fas fa-palette me-2"></i>Appearance
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">
+                                <i class="fas fa-sign-out-alt me-2"></i>Logout
+                            </a>
+                        </div>
+                    </div>
+
+                    <button id="themeToggle" class="btn btn-icon">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid mt-4">
+        <div class="row">
+            <!-- Live Feed Panel -->
+            <div class="col-md-6 mb-4">
+                <div class="card neumorphic">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0" style="font-weight: 700; color: rgb(254, 37, 37); font-family: 'Segoe UI', sans-serif; font-size: x-large;">
+                            Live Disaster Feed
+                        </h5>
+                        
+                        <button class="btn btn-primary" id="loadLiveFeed">
+                            <i class="fas fa-sync-alt"></i>
+                            Load Live Feed
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div id="liveFeed" class="live-feed-container"></div>
+                    </div>
+                </div>
+
+                <!-- Summary Section -->
+                <div class="card neumorphic mt-4">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0" style="font-weight: 700; color: rgb(254, 37, 37); font-family: 'Segoe UI', sans-serif; font-size: x-large;">
+                            Feed Summary
+                        </h5>
+                        <button class="btn btn-primary" id="generateSummary">
+                            <i class="fas fa-file-alt"></i>
+                            Generate Summary
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div id="feedSummary" class="summary-container">
+                            <div class="summary-item">
+                                <div class="summary-header">
+                                    <i class="fas fa-chart-pie"></i>
+                                    <span>Event Distribution</span>
+                                </div>
+                                <div class="summary-content" id="eventDistribution">
+                                    No data available
+                                </div>
+                            </div>
+                            <div class="summary-item">
+                                <div class="summary-header">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>Affected Regions</span>
+                                </div>
+                                <div class="summary-content" id="affectedRegions">
+                                    No data available
+                                </div>
+                            </div>
+                            <div class="summary-item">
+                                <div class="summary-header">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    <span>Severity Overview</span>
+                                </div>
+                                <div class="summary-content" id="severityOverview">
+                                    No data available
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notification Alerts -->
+                
+            </div>
+
+            <!-- Map Panel -->
+            <div class="col-md-6 mb-4">
+                <div class="card neumorphic">
+                    <div class="card-header">
+                        <h5 class="mb-0" style="font-weight: 700; color: rgb(254, 37, 37); font-family: 'Segoe UI', sans-serif; font-size: x-large;">
+                            Disaster Map
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="map" style="height: 400px;"></div>
+                    </div>
+                </div>
+                <div class="card neumorphic mt-4">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0" style="font-weight: 700; color: rgb(254, 37, 37); font-family: 'Segoe UI', sans-serif; font-size: x-large;">
+                            Active Alerts
+                        </h5>
+                        <div class="alert-actions d-flex gap-2">
+                            <button id="markAllRead" 
+                                style="
+                                    background-color: #0d6efd;
+                                    color: white;
+                                    border: none;
+                                    padding: 6px 12px;
+                                    border-radius: 4px;
+                                    font-size: 0.875rem;
+                                    display: flex;
+                                    align-items: center;
+                                    gap: 6px;
+                                    transition: background-color 0.3s ease;
+                                "
+                                onmouseover="this.style.backgroundColor='#0b5ed7'"
+                                onmouseout="this.style.backgroundColor='#0d6efd'">
+                                <i class="fas fa-check-double"></i> Mark All Read
+                            </button>
+                            <button id="clearAlerts" 
+                                style="
+                                    background-color: #dc3545;
+                                    color: white;
+                                    border: none;
+                                    padding: 6px 12px;
+                                    border-radius: 4px;
+                                    font-size: 0.875rem;
+                                    display: flex;
+                                    align-items: center;
+                                    gap: 6px;
+                                    transition: background-color 0.3s ease;
+                                "
+                                onmouseover="this.style.backgroundColor='#bb2d3b'"
+                                onmouseout="this.style.backgroundColor='#dc3545'">
+                                <i class="fas fa-trash"></i> Clear All
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="card-body">
+                        <div id="notificationAlerts" class="alerts-container">
+                            <div class="alert-item unread">
+                                <div class="alert-icon">
+                                    <i class="fas fa-bell"></i>
+                                </div>
+                                <div class="alert-content">
+                                    <div class="alert-title">New Disaster Reported</div>
+                                    <div class="alert-message">Flood warning issued for Mumbai region</div>
+                                    <div class="alert-meta">
+                                        <span class="alert-time">2 minutes ago</span>
+                                        <span class="alert-severity high">High Priority</span>
+                                    </div>
+                                </div>
+                                <div class="alert-actions">
+                                    <button class="btn btn-link btn-sm mark-read">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                </div>
+                            </div>
+                    
+                            <div class="alert-item unread">
+                                <div class="alert-icon">
+                                    <i class="fas fa-bolt"></i>
+                                </div>
+                                <div class="alert-content">
+                                    <div class="alert-title">Earthquake Detected</div>
+                                    <div class="alert-message">Tremors felt in Delhi NCR, magnitude 5.6</div>
+                                    <div class="alert-meta">
+                                        <span class="alert-time">10 minutes ago</span>
+                                        <span class="alert-severity medium">Medium Priority</span>
+                                    </div>
+                                </div>
+                                <div class="alert-actions">
+                                    <button class="btn btn-link btn-sm mark-read">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                </div>
+                            </div>
+                    
+                            <div class="alert-item unread">
+                                <div class="alert-icon">
+                                    <i class="fas fa-wind"></i>
+                                </div>
+                                <div class="alert-content">
+                                    <div class="alert-title">Cyclone Alert Issued</div>
+                                    <div class="alert-message">Cyclone approaching Odisha coast, landfall expected tomorrow</div>
+                                    <div class="alert-meta">
+                                        <span class="alert-time">25 minutes ago</span>
+                                        <span class="alert-severity high">High Priority</span>
+                                    </div>
+                                </div>
+                                <div class="alert-actions">
+                                    <button class="btn btn-link btn-sm mark-read">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <!-- Analytics Panel -->
+            <div id="analytics-section" class="col-12 mb-4">
+                <div class="card neumorphic">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0" style="font-weight: 700; color: rgb(254, 37, 37); font-family: 'Segoe UI', sans-serif; font-size: x-large;">
+                            Analytics
+                        </h5>
+                        <button class="btn btn-primary" id="generateAnalytics">
+                            <i class="fas fa-chart-line"></i>
+                            Generate Analytics
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="analytics-summary mb-4 p-3 rounded" style="background: rgba(0,0,0,0.03);">
+                            <p class="mb-0">
+                                <i class="fas fa-exclamation-triangle text-warning"></i> <strong>Current Situation:</strong> 
+                                <span class="ms-2">Multiple disaster events reported across India</span>
+                                <br>
+                                <i class="fas fa-city text-primary"></i> <strong>Affected Cities:</strong> 
+                                <span class="ms-2">Mumbai, Delhi, Uttarakhand, Odisha, and 12 other regions</span>
+                                <br>
+                                <i class="fas fa-chart-bar text-danger"></i> <strong>Severity Levels:</strong> 
+                                <span class="ms-2">High (3), Medium (5), Low (8) priority incidents</span>
+                                <br>
+                                <i class="fas fa-newspaper text-info"></i> <strong>News Coverage:</strong> 
+                                <span class="ms-2">45 verified reports from major news sources</span>
+                            </p>
+                        </div>
+                        <div class="row">
+                            <!-- Number Cards -->
+                            <div class="col-md-3 mb-4">
+                                <div class="card bg-primary text-white glass-effect">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Total Disasters</h6>
+                                        <h2 id="totalDisasters">0</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-4">
+                                <div class="card bg-danger text-white glass-effect">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Total Deaths</h6>
+                                        <h2 id="totalDeaths">0</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-4">
+                                <div class="card bg-warning text-dark glass-effect">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Most Affected City</h6>
+                                        <h2 id="mostAffectedCity">-</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-4">
+                                <div class="card bg-info text-white glass-effect">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Active Events</h6>
+                                        <h2 id="activeEvents">0</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- Charts -->
+                            <div class="col-md-6 mb-4">
+                                <div class="card neumorphic">
+                                    <div class="card-body">
+                                        <canvas id="eventsByCity"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <div class="card neumorphic">
+                                    <div class="card-body">
+                                        <canvas id="severityDistribution"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <div class="card neumorphic">
+                                    <div class="card-body">
+                                        <canvas id="newspaperDistribution"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <div class="card neumorphic">
+                                    <div class="card-body">
+                                        <canvas id="disasterTypes"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="/js/theme.js"></script>
+    <script src="/js/livefeed.js"></script>
+    <script src="/js/map.js"></script>
+    <script src="/js/analytics.js"></script>
+    <script src="/js/summary.js"></script>
+</body>
+</html> 

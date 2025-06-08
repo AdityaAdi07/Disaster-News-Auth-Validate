@@ -1,0 +1,204 @@
+[
+    {
+      "event": "earthquake",
+      "title": "Earthquake of 4.0 magnitude strikes Pakistan",
+      "source_url": "https://www.indiatoday.in/world/story/earthquake-of-40-magnitude-strikes-pakistan-glbs-2722517-2025-05-10",
+      "newspaper": "India Today",
+      "severity": "moderate",
+      "city": "unknown",
+      "state": "unknown",
+      "gemini_raw_response": null
+    },
+    {
+      "event": "earthquake",
+      "title": "Is the Great Himalayan earthquake to happen soon?",
+      "source_url": "https://timesofindia.indiatimes.com/etimes/trending/is-the-great-himalayan-earthquake-to-happen-soon/articleshow/120301259.cms",
+      "newspaper": "Times of India",
+      "severity": "moderate",
+      "city": "unknown",
+      "state": "unknown",
+      "gemini_raw_response": null
+    },
+    {
+      "event": "earthquake",
+      "title": "Earthquake of magnitude 6.0 jolts Greece",
+      "source_url": "https://www.indianarrative.com/world-news/earthquake-of-magnitude-6-0-jolts-greece-170775.html",
+      "newspaper": "India Narrative",
+      "severity": "moderate",
+      "city": "unknown",
+      "state": "unknown",
+      "gemini_raw_response": null
+    },
+    {
+      "event": "earthquake",
+      "title": "4.7 magnitude earthquake strikes Nepal, no reported damage",
+      "source_url": "https://www.indiatvnews.com/news/world/4-7-magnitude-earthquake-strikes-nepal-no-reported-damage-2025-05-20-991100",
+      "newspaper": "India TV News",
+      "severity": "moderate",
+      "city": "unknown",
+      "state": "unknown",
+      "gemini_raw_response": null
+    },
+    {
+      "event": "earthquake",
+      "title": "Japan Issues Urgent Megaquake Warning While India Faces Growing Earthquake Threat from the Himalayas",
+      "source_url": "https://www.travelandtourworld.com/news/article/japan-issues-urgent-megaquake-warning-while-india-faces-growing-earthquake-threat-from-the-himalayas/",
+      "newspaper": "Travel And Tour World",
+      "severity": "severe",
+      "city": "Delhi",
+      "state": "unknown",
+      "gemini_raw_response": null
+    },
+    {
+      "event": "heatwave",
+      "title": "Severe heatwave grips North India; Delhi records highest temp of season",
+      "source_url": "https://www.hindustantimes.com/india-news/severe-heatwave-north-india-delhi-highest-temperature-101684545676672.html",
+      "newspaper": "Hindustan Times",
+      "severity": "severe",
+      "city": "Delhi",
+      "state": "Delhi",
+      "gemini_raw_response": null
+    },
+    {
+      "event": "cyclone",
+      "title": "Cyclone Mocha forms in Bay of Bengal, likely to intensify",
+      "source_url": "https://www.thehindu.com/news/national/cyclone-mocha-bay-of-bengal-intensification/article66841275.ece",
+      "newspaper": "The Hindu",
+      "severity": "moderate",
+      "city": "Chennai",
+      "state": "Tamil Nadu",
+      "gemini_raw_response": null
+    },
+    {
+      "event": "landslide",
+      "title": "Massive landslide blocks highways in Himachal Pradesh after heavy rainfall",
+      "source_url": "https://www.ndtv.com/india-news/landslide-blocks-highway-in-himachal-5063211",
+      "newspaper": "NDTV",
+      "severity": "moderate",
+      "city": "Shimla",
+      "state": "Himachal Pradesh",
+      "gemini_raw_response": null
+    },
+    {
+      "event": "drought",
+      "title": "Drought conditions worsen in Maharashtra's Marathwada region",
+      "source_url": "https://www.business-standard.com/india-news/drought-conditions-worsen-in-maharashtra-marathwada-124030600358_1.html",
+      "newspaper": "Business Standard",
+      "severity": "severe",
+      "city": "Aurangabad",
+      "state": "Maharashtra",
+      "gemini_raw_response": null
+    },
+    {
+      "event": "forest fire",
+      "title": "Forest fire rages across Uttarakhand hills, army called for help",
+      "source_url": "https://www.firstpost.com/india/uttarakhand-forest-fire-rages-army-called-for-help-12900191.html",
+      "newspaper": "Firstpost",
+      "severity": "severe",
+      "city": "Dehradun",
+      "state": "Uttarakhand",
+      "gemini_raw_response": null
+    },
+    
+    {
+        "event": "flood",
+        "title": "Bengaluru: Parts of India's 'Silicon Valley' flooded after heavy rains",
+        "source_url": "https://www.bbc.com/news/articles/c7800l27ynzo",
+        "newspaper": "BBC",
+        "severity": "severe",
+        "city": "Bengaluru",
+        "state": "Karnataka",
+        "gemini_raw_response": null
+    },
+    {
+        "event": "flood",
+        "title": "Thousands remain isolated as floods ease in eastern Australia",
+        "source_url": "https://timesofindia.indiatimes.com/world/rest-of-world/thousands-remain-isolated-as-floods-ease-in-eastern-australia/articleshow/121375789.cms",
+        "newspaper": "Times of India",
+        "severity": "moderate",
+        "city": "Kolkata",
+        "state": "unknown",
+        "gemini_raw_response": null
+    },
+    {
+        "event": "flood",
+        "title": "Fact check: Did India trigger a flood in Pakistan?",
+        "source_url": "https://www.dw.com/en/flooding-in-pakistan-water-conflict-indus-water-treaty-disinformation/a-72393131",
+        "newspaper": "DW",
+        "severity": "moderate",
+        "city": "Mumbai",
+        "state": "unknown",
+        "gemini_raw_response": null
+    },
+    {
+        "event": "flood",
+        "title": "Monsoon floods kill dozens in India, thousands in relief camps",
+        "source_url": "https://www.aljazeera.com/news/2024/9/2/monsoon-floods-kill-dozens-in-india-thousands-in-relief-camps",
+        "newspaper": "Al Jazeera",
+        "severity": "severe",
+        "city": "Ahmedabad",
+        "state": "unknown",
+        "gemini_raw_response": null
+    },
+    {
+        "event": "flood",
+        "title": "States told to take precautionary steps to mitigate impact of potential flood",
+        "source_url": "https://www.newindianexpress.com/nation/2025/May/24/states-told-to-take-precautionary-steps-to-mitigate-impact-of-potential-flood",
+        "newspaper": "The New Indian Express",
+        "severity": "moderate",
+        "city": "Delhi",
+        "state": "unknown",
+        "gemini_raw_response": null
+    },
+    {
+        "event": "air pollution",
+        "title": "Air pollution in India linked to millions of deaths",
+        "source_url": "https://hsph.harvard.edu/environmental-health/news/air-pollution-in-india-linked-to-millions-of-deaths/",
+        "newspaper": "Harvard T.H. Chan School of Public Health",
+        "severity": "moderate",
+        "city": "Delhi",
+        "state": "unknown",
+        "gemini_raw_response": null
+      },
+      {
+        "event": "air pollution",
+        "title": "AQI - Air Quality Index | Real-Time Air Pollution | India Air Quality Today",
+        "source_url": "https://www.moneycontrol.com/aqi/",
+        "newspaper": "Moneycontrol",
+        "severity": "severe",
+        "city": "Delhi",
+        "state": "unknown",
+        "gemini_raw_response": null
+      },
+      {
+        "event": "air pollution",
+        "title": "Only Seven Countries Meet WHO Air Quality Standards; Most Polluted Are Chad And Bangladesh - Northern India Also Dominates",
+        "source_url": "https://healthpolicy-watch.news/northern-india-dominates-global-air-pollution-rankings/",
+        "newspaper": "Health Policy Watch",
+        "severity": "moderate",
+        "city": "Delhi",
+        "state": "unknown",
+        "gemini_raw_response": null
+      },
+      {
+        "event": "air pollution",
+        "title": "India has six of the world's 10 most polluted cities, report shows",
+        "source_url": "https://www.nbcnews.com/news/world/india-six-worlds-top-10-polluted-cities-report-shows-rcna195763",
+        "newspaper": "NBC News",
+        "severity": "severe",
+        "city": "Delhi",
+        "state": "unknown",
+        "gemini_raw_response": null
+      },
+      {
+        "event": "air pollution",
+        "title": "Air pollution: Why most Indians choking on smog aren't in Delhi",
+        "source_url": "https://www.bbc.com/news/articles/c36pr7wpn78o",
+        "newspaper": "BBC",
+        "severity": "severe",
+        "city": "Delhi",
+        "state": "West Bengal",
+        "gemini_raw_response": null
+      }
+      
+  ]

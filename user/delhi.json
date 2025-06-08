@@ -1,0 +1,82 @@
+[
+  {
+    "name": "All India Institute of Medical Sciences (AIIMS)",
+    "type": "Hospital",
+    "address": "Ansari Nagar East, New Delhi, Delhi 110029",
+    "phone": "011-26588500",
+    "maps_url": "https://maps.google.com/?cid=16959832741172583996",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/AIIMS_Delhi_hospital.jpg/640px-AIIMS_Delhi_hospital.jpg"
+  },
+  {
+    "name": "Lok Nayak Jai Prakash Narayan Hospital",
+    "type": "Hospital",
+    "address": "Jawaharlal Nehru Marg, Delhi Gate, New Delhi, Delhi 110002",
+    "phone": "011-23232400",
+    "maps_url": "https://maps.google.com/?cid=11602182929584760647",
+    "image_url": "https://www.lnjphospital.nic.in/WriteReadData/LINKS/192_01.jpg"
+  },
+  {
+    "name": "Aruna Asaf Ali Government Hospital",
+    "type": "Hospital",
+    "address": "5, Institutional Area, Defence Colony, New Delhi, Delhi 110024",
+    "phone": "011-24652531",
+    "maps_url": "https://maps.google.com/?cid=3057595418913781002",
+    "image_url": null
+  },
+  {
+    "name": "Delhi Fire Service Headquarters",
+    "type": "Fire Station",
+    "address": "Connaught Place, Near, Barakhamba Rd, Fire Brigade Ln, New Delhi, Delhi 110001",
+    "phone": "101",
+    "maps_url": "https://maps.google.com/?cid=13784347304898078716",
+    "image_url": null
+  },
+  {
+    "name": "Police Station Connaught Place",
+    "type": "Police Station",
+    "address": "Connaught Place, New Delhi, Delhi 110001",
+    "phone": "011-23414144",
+    "maps_url": "https://maps.google.com/?cid=11295189771347189469",
+    "image_url": null
+  },
+  {
+    "name": "St. John Ambulance Brigade",
+    "type": "Medical Centre",
+    "address": "1, Red Cross Rd, Red Cross Road Area, New Delhi, Delhi 110001",
+    "phone": "011-23711644",
+    "maps_url": "https://maps.google.com/?cid=17115581240818238478",
+    "image_url": null
+  },
+  {
+    "name": "Goonj (NGO)",
+    "type": "NGO",
+    "address": "M-51 D, Sarita Vihar, New Delhi, Delhi 110076",
+    "phone": "011-41401212",
+    "maps_url": "https://maps.google.com/?cid=12438464085730648403",
+    "image_url": "https://goonj.org/wp-content/uploads/2023/05/banner_goonj_v1_2023.jpg"
+  },
+  {
+    "name": "Max Hospital, Saket",
+    "type": "Hospital",
+    "address": "Press Enclave Road, Mandir Marg, Saket Institutional Area, Saket, New Delhi, Delhi 110017",
+    "phone": "011-26515050",
+    "maps_url": "https://maps.google.com/?cid=13973569876259082750",
+    "image_url": "https://www.maxhealthcare.in/sites/default/files/2023-10/Max-Hospital-Saket-East-Wing.jpg"
+  },
+  {
+    "name": "Fortis Hospital, Shalimar Bagh",
+    "type": "Hospital",
+    "address": "AA-1, Shalimar Bagh, New Delhi, Delhi 110088",
+    "phone": "011-45302222",
+    "maps_url": "https://maps.google.com/?cid=12564758733969699839",
+    "image_url": "https://www.fortishealthcare.com/sites/default/files/styles/hospital_page_image_style/public/2022-12/fortis-hospital-shalimar-bagh-delhi-main-image_0.jpg?itok=f3J5xH0V"
+  },
+  {
+    "name": "National Disaster Management Authority (NDMA)",
+    "type": "NGO",
+    "address": "NDMA Bhawan, A-1, Safdarjung Enclave, New Delhi, Delhi 110029",
+    "phone": "011-26701700",
+    "maps_url": "https://maps.google.com/?cid=15775801519346055593",
+    "image_url": null
+  }
+]

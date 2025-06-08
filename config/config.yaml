@@ -1,0 +1,60 @@
+# Global Configuration Settings
+
+# API Settings
+api:
+  host: "0.0.0.0"
+  port: 8000
+  debug: true
+
+# Database Settings
+database:
+  host: "localhost"
+  port: 5432
+  name: "resq_ai_db"
+  user: "postgres"
+  password: "your_password_here"
+
+# WebSocket Settings
+websocket:
+  host: "0.0.0.0"
+  port: 8765
+
+# Map Settings
+map:
+  default_center: [27.7172, 85.3240]  # Kathmandu coordinates
+  default_zoom: 12
+  tile_layer: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+
+# Simulation Settings
+simulation:
+  sumo_binary: "sumo"
+  sumo_config: "simulation/sumo_network/simulation.sumocfg"
+  time_step: 0.1
+  max_steps: 3600
+
+# ML Model Settings
+ml:
+  model_path: "models/saved_models"
+  data_path: "data_ingestion/raw_data"
+  prediction_interval: 3600  # 1 hour in seconds
+
+# Vehicle-Disaster Mapping
+vehicle_disaster_mapping:
+  flood:
+    - "amphibious_vehicle"
+    - "oxygenated_vehicle"
+  fire:
+    - "oxygenated_vehicle"
+    - "snake_bot"
+  landslide:
+    - "snake_bot"
+  earthquake:
+    - "snake_bot"
+    - "oxygenated_vehicle"
+
+# Risk Zone Colors
+risk_zones:
+  low: "#4CAF50"    # Green
+  moderate: "#FFC107"  # Yellow
+  high: "#FF5722"   # Orange
+  severe: "#F44336" # Red 

@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Indian Disaster Intelligence Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Enhanced Navigation -->
+    <nav class="navbar navbar-expand-lg fixed-top glass-effect">
+        <div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center" href="/">
+                <i class="fas fa-shield-alt me-2"></i>
+                <span>Disaster Intelligence Dashboard</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">
+                            <i class="fas fa-chart-line me-1"></i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/map">
+                            <i class="fas fa-chart-pie me-1"></i>
+                            Analytics
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/analytics">
+                            <i class="fas fa-hashtag me-1"></i>
+                            Social Media
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/admin">
+                            <i class="fas fa-user-shield me-1"></i>
+                            Admin Panel
+                        </a>
+                    </li>
+                </ul>
+                <div class="nav-right d-flex align-items-center">
+                    <div class="nav-item dropdown me-3">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-bell"></i>
+                            <span class="notification-badge">3</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end notification-dropdown">
+                            <h6 class="dropdown-header">Notifications</h6>
+                            <a class="dropdown-item" href="#">
+                                <div class="notification-item">
+                                    <i class="fas fa-exclamation-triangle text-warning"></i>
+                                    <div class="notification-content">
+                                        <p>New flood alert in Mumbai</p>
+                                        <small>2 minutes ago</small>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="dropdown-item" href="#">
+                                <div class="notification-item">
+                                    <i class="fas fa-fire text-danger"></i>
+                                    <div class="notification-content">
+                                        <p>Forest fire reported in Uttarakhand</p>
+                                        <small>15 minutes ago</small>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-center" href="#">View all notifications</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid mt-4">
+        <div class="row">
+            <!-- Admin Sidebar -->
+            <div class="col-md-3 mb-4">
+                <div class="card neumorphic admin-sidebar">
+                    <div class="card-body p-0">
+                        <div class="admin-profile text-center p-4">
+                            <div class="admin-avatar mb-3">
+                                <i class="fas fa-user-shield fa-3x"></i>
+                            </div>
+                            <h5 class="mb-1">Admin User</h5>
+                            <p class="text-muted mb-0">Super Administrator</p>
+                        </div>
+                        
+                        <!-- Verification Methods -->
+                        <div class="verification-methods p-3">
+                            <h6 class="text-uppercase mb-3">Verification Methods</h6>
+                            
+                            <!-- Scrapy Card -->
+                            <div class="method-card mb-3">
+                                <div class="method-header d-flex align-items-center mb-2">
+                                    <i class="fas fa-spider fa-lg text-primary me-2"></i>
+                                    <h6 class="mb-0">Web Scraping</h6>
+                                </div>
+                                <div class="method-content">
+                                    <p class="small text-muted mb-2">Using Scrapy for automated data collection and verification</p>
+                                    <div class="method-stats d-flex justify-content-between">
+                                        <span class="badge bg-success">Active</span>
+                                        <small class="text-muted">Last run: 5m ago</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Deepfake Detection Card -->
+                            <div class="method-card mb-3">
+                                <div class="method-header d-flex align-items-center mb-2">
+                                    <i class="fas fa-camera-retro fa-lg text-warning me-2"></i>
+                                    <h6 class="mb-0">Image Analysis</h6>
+                                </div>
+                                <div class="method-content">
+                                    <p class="small text-muted mb-2">Deepfake detection and image authenticity verification</p>
+                                    <div class="method-stats d-flex justify-content-between">
+                                        <span class="badge bg-success">Active</span>
+                                        <small class="text-muted">Accuracy: 98%</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- LLM Models Card -->
+                            <div class="method-card mb-3">
+                                <div class="method-header d-flex align-items-center mb-2">
+                                    <i class="fas fa-brain fa-lg text-info me-2"></i>
+                                    <h6 class="mb-0">LLM Analysis</h6>
+                                </div>
+                                <div class="method-content">
+                                    <p class="small text-muted mb-2">GPT-4 powered content verification and analysis</p>
+                                    <div class="method-stats d-flex justify-content-between">
+                                        <span class="badge bg-success">Active</span>
+                                        <small class="text-muted">Model: Trained on Jupyter Notebook</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-md-9">
+                <!-- Quick Stats -->
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <div class="card bg-primary text-white glass-effect">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="card-title">Pending Reports</h6>
+                                        <h2>24</h2>
+                                    </div>
+                                    <i class="fas fa-file-alt fa-2x opacity-50"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card bg-success text-white glass-effect">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="card-title">Verified Today</h6>
+                                        <h2>12</h2>
+                                    </div>
+                                    <i class="fas fa-check-circle fa-2x opacity-50"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card bg-warning text-dark glass-effect">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="card-title">Critical Alerts</h6>
+                                        <h2>5</h2>
+                                    </div>
+                                    <i class="fas fa-exclamation-triangle fa-2x opacity-50"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card bg-info text-white glass-effect">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="card-title">System Health</h6>
+                                        <h2>98%</h2>
+                                    </div>
+                                    <i class="fas fa-heartbeat fa-2x opacity-50"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Report Verification Section -->
+                <div class="card neumorphic mb-4">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Disaster Report Verification</h5>
+                        <button class="btn btn-primary" id="loadReports">
+                            <i class="fas fa-sync-alt me-1"></i>
+                            Load Reports
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div id="reportsList" class="reports-container">
+                            <!-- Reports will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Verification Modal -->
+    <div class="modal fade" id="verificationModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content neumorphic">
+                <div class="modal-header border-bottom-0">
+                    <h5 class="modal-title d-flex align-items-center" style="font-weight: 700; color: rgb(254, 37, 37); font-family: 'Segoe UI', sans-serif; font-size: x-large;">
+                        <i class="fas fa-clipboard-check me-2"></i>
+                        Verify Disaster Report
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="verification-content">
+                        <div class="report-header mb-4 p-3 rounded" style="background: rgba(254, 37, 37, 0.05);">
+                            <h6 class="report-title mb-0" style="font-weight: 600; color: #333;"></h6>
+                        </div>
+                        
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label d-flex align-items-center" style="font-weight: 600;">
+                                        <i class="fas fa-exclamation-circle me-2 text-warning"></i>
+                                        Severity Level
+                                    </label>
+                                    <select class="form-select" id="severitySelect" style="border-radius: 8px; padding: 10px;">
+                                        <option value="low">Low Priority</option>
+                                        <option value="moderate">Moderate Priority</option>
+                                        <option value="high">High Priority</option>
+                                        <option value="critical">Critical Priority</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label d-flex align-items-center" style="font-weight: 600;">
+                                        <i class="fas fa-skull me-2 text-danger"></i>
+                                        Casualty Count
+                                    </label>
+                                    <input type="number" class="form-control" id="deathCount" min="0" style="border-radius: 8px; padding: 10px;">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <label class="form-label d-flex align-items-center" style="font-weight: 600;">
+                                <i class="fas fa-link me-2 text-primary"></i>
+                                Media Sources
+                            </label>
+                            <div id="mediaLinks" class="row g-3"></div>
+                            
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <label class="form-label d-flex align-items-center" style="font-weight: 600;">
+                                <i class="fas fa-images me-2 text-success"></i>
+                                Visual Evidence
+                            </label>
+                            <div id="imageGallery" class="row g-3"></div>
+                            <button class="btn btn-outline-success mt-2" id="addImage" style="border-radius: 8px;">
+                                <i class="fas fa-plus me-1"></i> Add Image URL
+                            </button>
+                        </div>
+
+                        <div class="verification-scores p-4 rounded" style="background: rgba(0,0,0,0.02);">
+                            <h6 class="mb-3 d-flex align-items-center" style="font-weight: 600; color: #333;">
+                                <i class="fas fa-chart-line me-2 text-primary"></i>
+                                Verification Scores
+                            </h6>
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <div class="score-card p-3 rounded" style="background: rgba(255, 193, 7, 0.1);">
+                                        <div class="d-flex align-items-center mb-2">
+                                            <i class="fas fa-camera-retro me-2 text-warning"></i>
+                                            <span style="font-weight: 500;">Deepfake Score</span>
+                                        </div>
+                                        <div class="score-value d-flex align-items-center">
+                                            <h3 class="mb-0 me-2" style="color: #ffc107;">85%</h3>
+                                            <small class="text-muted">Image Authenticity</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="score-card p-3 rounded" style="background: rgba(13, 110, 253, 0.1);">
+                                        <div class="d-flex align-items-center mb-2">
+                                            <i class="fas fa-brain me-2 text-primary"></i>
+                                            <span style="font-weight: 500;">LLM Analysis</span>
+                                        </div>
+                                        <div class="score-value d-flex align-items-center">
+                                            <h3 class="mb-0 me-2" style="color: #0d6efd;">92%</h3>
+                                            <small class="text-muted">Content Verification</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="score-card p-3 rounded" style="background: rgba(25, 135, 84, 0.1);">
+                                        <div class="d-flex align-items-center mb-2">
+                                            <i class="fas fa-spider me-2 text-success"></i>
+                                            <span style="font-weight: 500;">Scrapy Validity</span>
+                                        </div>
+                                        <div class="score-value d-flex align-items-center">
+                                            <h3 class="mb-0 me-2" style="color: #198754;">88%</h3>
+                                            <small class="text-muted">Source Reliability</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-top-0">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal" style="border-radius: 8px; padding: 8px 16px;">
+                        <i class="fas fa-times me-1"></i>
+                        Close
+                    </button>
+                    <button type="button" class="btn btn-danger" id="discardReport" style="border-radius: 8px; padding: 8px 16px;">
+                        <i class="fas fa-trash me-1"></i>
+                        Discard Report
+                    </button>
+                    <button type="button" class="btn btn-success" id="confirmVerification" style="border-radius: 8px; padding: 8px 16px;">
+                        <i class="fas fa-check me-1"></i>
+                        Confirm Verification
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html> 
